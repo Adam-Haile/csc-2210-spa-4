@@ -1,0 +1,59 @@
+//
+// Created by milleraa on 10/29/2024.
+//
+
+#include "GameController.h"
+
+using namespace std;
+
+GameController::GameController(View* view) {
+    this->view = view;
+    map = new Map();
+    // player = Player::getInstance();
+}
+
+GameController::~GameController() {
+    delete map;
+}
+
+void GameController::startGame() {
+    int gameState = 1;
+    //while
+    char action = startTurn();
+    performAction(action);
+    gameState = getGameState(action);
+    //if gameState != 1 end while
+    endGame(gameState);
+}
+
+char GameController::startTurn() {
+    vector<char> directions = {'N', 'E', 'S', 'W'};
+    view->printState(directions, vector<string>{});
+    char action = view->getInput(vector<char>{'N', 'E', 'S', 'W', 'H', 'M', 'Q'});
+    return action;
+}
+
+void GameController::performAction(char action) {
+    switch (action) {
+        case 'H': view->printLine(help_message); break;
+        case 'M': view->printMap(map); break;
+        case 'Q': break;
+        default: break;
+    }
+}
+
+int GameController::getGameState(char action) {
+    return 0;
+}
+
+void GameController::endRound(int gameState) {
+}
+
+void GameController::endGame(int gameState) {
+    if (gameState == 0) {
+        view->printLine("Game Over");
+    }
+}
+
+void GameController::resetGame() {
+}
