@@ -18,11 +18,11 @@ GameController::~GameController() {
 
 void GameController::startGame() {
     int gameState = 1;
-    //while
-    char action = startTurn();
-    performAction(action);
-    gameState = getGameState(action);
-    //if gameState != 1 end while
+    while (gameState == 1) {
+        char action = startTurn();
+        performAction(action);
+        gameState = getGameState(action);
+    }
     endGame(gameState);
 }
 
@@ -43,7 +43,7 @@ void GameController::performAction(char action) {
 }
 
 int GameController::getGameState(char action) {
-    return 0;
+    return action != 'Q' && action != 'q';
 }
 
 void GameController::endRound(int gameState) {

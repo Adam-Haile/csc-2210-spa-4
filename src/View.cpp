@@ -10,19 +10,21 @@ View::View() {
 View::~View() {
 }
 
+#include <cctype> // for toupper
+
 char View::getInput(const std::vector<char> &validChars) {
-    //ask for input until valid input is given
     char input;
     bool valid = false;
     while (!valid) {
         std::cin >> input;
 
-        auto iter = validChars.begin();
-        while (iter != validChars.end() && !valid) {
-            if (input == *iter) {
+        input = std::toupper(input);
+
+        for (const char &validChar : validChars) {
+            if (input == std::toupper(validChar)) {
                 valid = true;
+                break;
             }
-            ++iter;
         }
 
         if (!valid) {

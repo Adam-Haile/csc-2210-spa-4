@@ -18,3 +18,6 @@ vector<string> Player::getInventory() {
 vector<string> Player::search() {
     return {};
 }
+
+void Player::interact(RoomEntity* entity) {}
+
