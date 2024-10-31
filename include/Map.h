@@ -13,6 +13,7 @@ public:
     Map();
     void setToRoom(int x, int y, RoomEntity* entity);
     void moveToRoom(int x, int y, RoomEntity* entity);
+    void removeFromRoom(int x, int y, RoomEntity* entity);
 private:
     std::vector<std::vector<Room>> rooms;
 };

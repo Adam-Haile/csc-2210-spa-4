@@ -1,8 +1,13 @@
 //
 // Created by milleraa on 10/29/2024.
 //
+#include <stdexcept>
 
 #include "RoomEntity.h"
+
+#include <Player.h>
+
+using namespace std;
 
 Blank::Blank() {
     icon = " . ";
@@ -11,26 +16,22 @@ Blank::Blank() {
 
 Mask::Mask() {
     icon = " < ";
-    message = "";
-}
-
-std::string Mask::getColor() {
-    return color;
+    message = "There's a box of disposable masks nearby.";
 }
 
 Homework::Homework() {
-    icon = " ?H ";
-    message = "";
+    icon = " H ";
+    message = "You sense your homework nearby.";
 }
 
 ProfessorOffice::ProfessorOffice() {
     icon = " # ";
-    message = "";
+    message = "You feel an ominous presence.";
 }
 
 Portal::Portal() {
     icon = " ~ ";
-    message = "";
+    message = "This doorway leads somewhere weird.";
 }
 
 Camera::Camera() {
@@ -40,26 +41,61 @@ Camera::Camera() {
 
 CameraZone::CameraZone(Camera cam) {
     icon = " ! ";
-    message = "";
+    message = "There's a camera in the corner.";
 }
 
-void Blank::interact(RoomEntity *entity) {
+string Blank::interact(RoomEntity *entity) {
+    return "";
 }
 
-void Mask::interact(RoomEntity *entity) {
+string Mask::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+        int masks = Player::getInstance()->getMasks();
+        Player::getInstance()->setMask(masks + 1);
+        return "You picked up a mask.";
+    }
+
+    return "";
 }
 
-void Homework::interact(RoomEntity *entity) {
+string Homework::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+
+    }
+
+    return "";
 }
 
-void ProfessorOffice::interact(RoomEntity *entity) {
+string ProfessorOffice::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+
+    } else if (entity == Homework::getInstance()) {
+
+    }
+
+    return "";
 }
 
-void Portal::interact(RoomEntity *entity) {
+string Portal::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+
+    }
+
+    return "";
 }
 
-void Camera::interact(RoomEntity *entity) {
+string Camera::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+
+    }
+
+    return "";
 }
 
-void CameraZone::interact(RoomEntity *entity) {
+string CameraZone::interact(RoomEntity *entity) {
+    if(entity == Player::getInstance()) {
+
+    }
+
+    return "";
 }

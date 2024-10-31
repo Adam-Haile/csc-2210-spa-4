@@ -15,10 +15,16 @@ public:
     Player();
     int x;
     int y;
+    int homework;
+    int masks;
     bool alive;
     std::vector<std::string> getInventory();
     std::vector<std::string> search();
-    void interact(RoomEntity* entity) override;
+    string interact(RoomEntity* entity) override;
+    int getHomework();
+    int getMasks();
+    void setHomework(int homework);
+    void setMask(int masks);
     std::string getIcon() override {return icon; };
 private:
     std::string icon;
