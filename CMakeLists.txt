@@ -17,4 +17,5 @@ add_executable(csc_2210_spa_4
     src/Room.cpp
     src/RoomEntity.cpp
     src/View.cpp
-        src/Player.cpp)
+        src/Player.cpp
+        include/Player.h)
