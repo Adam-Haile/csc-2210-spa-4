@@ -67,7 +67,27 @@ void View::printMessages(const std::vector<std::string> &msg) {
 }
 
 void View::printMap(Map *map) {
-    std::cout <<
+    // Maybe I should just make a template and fill in each square??
+    Room* room = nullptr;
+    cout << "+---+---+---+---+---+---+---+---+" << endl;
+    for (int i = 0; i < 10; i++) {
+        cout << "|";
+        for (int j = 0; j < 8; j++) {
+            room = map->getRoom(i, j);
+            if (!room->isTraversable)
+                cout << "XXX";
+            else
+                cout << "   ";
+            if (j == 7)
+                cout << "|";
+            else
+                cout << " ";
+        }
+        if (i == 9)
+            cout << endl << "+---+---+---+---+---+---+---+---+";
+        cout << endl;
+    }
+    std::cout << endl <<
     "+---+       +---+---+   +---+---+" << "\n"
     "|   |XXX|XXX|     ! |<O>| !     |" << "\n"
     "+   +---+---+       +---+       +" << "\n"
