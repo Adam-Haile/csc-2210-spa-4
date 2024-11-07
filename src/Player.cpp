@@ -19,5 +19,5 @@ vector<string> Player::search() {
     return {};
 }
 
-void Player::interact(RoomEntity* entity) {}
+string Player::interact(RoomEntity* entity) { return ""; }
 

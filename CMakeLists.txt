@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(include)
 
 add_executable(csc_2210_spa_4
-    include/GameController.h
-    include/Map.h
-    include/Room.h
-    include/RoomEntity.h
-    include/View.h
+        src/GameController.h
+        src/Map.h
+        src/Room.h
+        src/RoomEntity.h
+        src/View.h
     src/GameController.cpp
     src/main.cpp
     src/Map.cpp
@@ -18,4 +18,4 @@ add_executable(csc_2210_spa_4
     src/RoomEntity.cpp
     src/View.cpp
         src/Player.cpp
-        include/Player.h)
+        src/Player.h)

@@ -5,8 +5,13 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "Room.h"
 #include <vector>
+
+#include "Room.h"
+#include "RoomEntity.h"
+
+class Room;
+class RoomEntity;
 
 class Map {
 public:

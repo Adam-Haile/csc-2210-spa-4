@@ -10,6 +10,9 @@ using namespace std;
 #include <string>
 #include <vector>
 
+#include "Map.h"
+
+class Map;
 class Blank;
 class Mask;
 class Homework;
@@ -35,7 +38,7 @@ class Singleton : public RoomEntity {
 public:
     static T* getInstance() {
         static T instance;
-        return instance;
+        return &instance;
     }
     Singleton(const Singleton&) = delete; //delete copy constructor
     Singleton& operator=(const Singleton&) = delete; //delete assignment operator
@@ -96,12 +99,13 @@ private:
 class Portal : public Singleton<Portal> {
     friend class Singleton<Portal>;
 public:
-    Portal();
+    Portal(Map *map);
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
 private:
     string icon;
     string message;
+    Map* map;
 };
 
 // Camera Singleton
@@ -114,14 +118,13 @@ public:
 private:
     string icon;
     string message;
-    vector<CameraZone*> zones;
 };
 
 // Camera Singleton
 class CameraZone : public Singleton<CameraZone> {
     friend class Singleton<CameraZone>;
 public:
-    explicit CameraZone(Camera cam);
+    explicit CameraZone(Camera *cam);
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
 private:

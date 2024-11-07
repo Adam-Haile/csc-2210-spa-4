@@ -9,6 +9,8 @@
 #include <string>
 #include "RoomEntity.h"
 
+using namespace std;
+
 class Player : public Singleton<Player> {
     friend class Singleton<Player>;
 public:
@@ -18,17 +20,18 @@ public:
     int homework;
     int masks;
     bool alive;
-    std::vector<std::string> getInventory();
-    std::vector<std::string> search();
+    bool inCamera;
+    vector<std::string> getInventory();
+    vector<std::string> search();
     string interact(RoomEntity* entity) override;
     int getHomework();
     int getMasks();
     void setHomework(int homework);
     void setMask(int masks);
-    std::string getIcon() override {return icon; };
+    string getIcon() override {return icon; };
 private:
-    std::string icon;
-    std::string message;
+    string icon;
+    string message;
 };
 
 #endif // PLAYER_H

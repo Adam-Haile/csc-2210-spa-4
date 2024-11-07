@@ -7,11 +7,13 @@
 
 #include "RoomEntity.h"
 
+class RoomEntity;
+
 class Room {
 public:
     bool isTraversable;
-    void removeEntity(RoomEntity * entity);
-    void addEntity(RoomEntity* entity);
+    void removeEntity(RoomEntity *entity);
+    void addEntity(RoomEntity *entity);
 private:
     std::vector<RoomEntity*> entities;
 };
