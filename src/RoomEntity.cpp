@@ -18,12 +18,12 @@ int getRandomInt(int min, int max) {
 }
 
 Blank::Blank() {
-    icon = " . ";
+    icon = "   ";
     message = "";
 }
 
 Mask::Mask() {
-    icon = " < ";
+    icon = " > ";
     message = "There's a box of disposable masks nearby.";
 }
 
@@ -89,7 +89,13 @@ string ProfessorOffice::interact(RoomEntity *entity) {
 
 string Portal::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
-        map->moveToRoom(getRandomInt(0, 10), getRandomInt(0, 10), entity);
+        int i = getRandomInt(0, 10);
+        int j = getRandomInt(0, 8);
+        while(!map->getRoom(i,j)->canTeleport()) {
+            i = getRandomInt(0, 10);
+            j = getRandomInt(0, 8);
+        }
+        map->moveToRoom(i, j, entity);
     }
 
     return "";

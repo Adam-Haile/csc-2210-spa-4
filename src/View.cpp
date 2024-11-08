@@ -5,6 +5,29 @@
 #include "View.h"
 
 View::View() {
+    lines = {
+        "+---+       +---+---+   +---+---+",
+        "|00 |01 |02 |03  04 |05 |06  07 |",
+        "+   +---+---+       +---+       +",
+        "|10  11  12  13  14  15  16  17 |",
+        "+   +---+---+---+---+   +---+   +",
+        "|20 |21 |22 |23 |24 |25 |26 |27 |",
+        "+   +---+---+---+---+   +---+   +",
+        "|30 |31 |32  33 |34 |35 |36 |37 |",
+        "+   +---+       +---+   +---+   +",
+        "|40 |41 |42  43  44  45 |46 |47 |",
+        "+   +---+               +---+   +",
+        "|50 |51 |52  53  54  55 |56 |57 |",
+        "+   +---+   +---+       +---+   +",
+        "|60 |61 |62 |63 |64  65 |66 |67 |",
+        "+   +---+   +---+---+---+---+   +",
+        "|70 |71 |72 |73 |74 |75 |76 |77 |",
+        "+   +---+   +---+---+---+---+   +",
+        "|80  81  82  83  84  85  86  87 |",
+        "+       +---+       +---+---+   +",
+        "|90  91 |92 |93  94 |95 |96 |97 |",
+        "+---+---+   +---+---+       +---+"
+    };
 }
 
 View::~View() {
@@ -67,26 +90,20 @@ void View::printMessages(const std::vector<std::string> &msg) {
 }
 
 void View::printMap(Map *map) {
-    // Maybe I should just make a template and fill in each square??
-    Room* room = nullptr;
-    cout << "+---+---+---+---+---+---+---+---+" << endl;
-    for (int i = 0; i < 10; i++) {
-        cout << "|";
-        for (int j = 0; j < 8; j++) {
-            room = map->getRoom(i, j);
-            if (!room->isTraversable)
-                cout << "XXX";
-            else
-                cout << "   ";
-            if (j == 7)
-                cout << "|";
-            else
-                cout << " ";
+    for (int i = 0; i < lines.size(); i++) {
+        if (i % 2 == 0) {
+            cout << lines[i] << endl;
+        } else {
+            std::string line = lines[i];
+            for (int j = 0; j < 8; j++) {
+                std::string current = to_string((i - 1) / 2) + to_string(j) + " ";
+                std::string replacement = map->getRoom((i - 1) / 2, j)->getString();
+                line.replace(line.find(current), current.size(), replacement);
+            }
+            cout << line << endl;
         }
-        if (i == 9)
-            cout << endl << "+---+---+---+---+---+---+---+---+";
-        cout << endl;
     }
+
     std::cout << endl <<
     "+---+       +---+---+   +---+---+" << "\n"
     "|   |XXX|XXX|     ! |<O>| !     |" << "\n"
@@ -110,7 +127,9 @@ void View::printMap(Map *map) {
     "|       |XXX|       |XXX|XXX|   |" << "\n"
     "+---+---+   +---+---+       +---+"
     << std::endl;
+
 }
 
 void View::printLine(const std::string &line) {
+
 }

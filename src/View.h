@@ -20,6 +20,8 @@ public:
     void printMessages(const std::vector<std::string>& msg);
     void printMap(Map* map);
     void printLine(const std::string& line);
+private:
+    std::vector<std::string> lines;
 };
 
 #endif // VIEW_H

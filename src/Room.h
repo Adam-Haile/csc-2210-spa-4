@@ -11,10 +11,14 @@ class RoomEntity;
 
 class Room {
 public:
-    bool isTraversable;
     void removeEntity(RoomEntity *entity);
     void addEntity(RoomEntity *entity);
+    void setTraversable(bool traversable);
+    bool isTraversable() const;
+    bool canTeleport() const;
+    std::string getString();
 private:
+    bool traversable = true;
     std::vector<RoomEntity*> entities;
 };
 
