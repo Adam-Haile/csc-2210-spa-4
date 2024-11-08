@@ -5,6 +5,9 @@
 #include <random>
 
 #include "RoomEntity.h"
+
+#include <map>
+
 #include "Player.h"
 
 using namespace std;
@@ -37,17 +40,19 @@ ProfessorOffice::ProfessorOffice() {
     message = "You feel an ominous presence.";
 }
 
-Portal::Portal(Map* map) : map(map) {
+Portal::Portal() {
     icon = " ~ ";
     message = "This doorway leads somewhere weird.";
 }
-
+void Portal::setMap(Map *map) {
+    this->map = map;
+}
 Camera::Camera() {
     icon = "<O>";
     message = "";
 }
 
-CameraZone::CameraZone(Camera *cam) {
+CameraZone::CameraZone() {
     icon = " ! ";
     message = "There's a camera in the corner.";
 }

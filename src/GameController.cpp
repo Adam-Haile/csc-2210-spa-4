@@ -38,7 +38,17 @@ void GameController::performAction(char action) {
         case 'H': view->printLine(help_message); break;
         case 'M': view->printMap(map); break;
         case 'Q': break;
+        case 'N': movePlayer(-1,0); break;
+        case 'E': movePlayer(0,1); break;
+        case 'S': movePlayer(1,0);break;
+        case 'W': movePlayer(0,-1);break;
         default: break;
+    }
+}
+
+void GameController::movePlayer(int difX, int difY) {
+    if (map->movePlayer(difX,difY)) {
+        view->printMessages(Player::getInstance()->search(map));
     }
 }
 

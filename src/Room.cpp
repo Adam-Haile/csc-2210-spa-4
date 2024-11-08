@@ -95,3 +95,7 @@ std::string Room::getString() {
   //  ~  Portal - 7
   //  P  Player - 8
 }
+
+std::vector<RoomEntity *> * Room::getEntities() {
+  return &entities;
+}

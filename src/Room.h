@@ -17,6 +17,7 @@ public:
     bool isTraversable() const;
     bool canTeleport() const;
     std::string getString();
+    std::vector<RoomEntity *> * getEntities();
 private:
     bool traversable = true;
     std::vector<RoomEntity*> entities;

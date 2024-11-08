@@ -23,6 +23,7 @@ public:
     void endRound(int gameState);
     void endGame(int gameState);
     void resetGame();
+    void movePlayer(int difX, int difY);
 
 private:
     Map* map;

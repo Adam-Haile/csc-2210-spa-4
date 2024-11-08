@@ -87,6 +87,10 @@ void View::printState(const std::vector<char> &directions,
 }
 
 void View::printMessages(const std::vector<std::string> &msg) {
+    // Not randomized for right now
+    for (const std::string & message : msg) {
+        std::cout << message << endl;
+    }
 }
 
 void View::printMap(Map *map) {
@@ -103,7 +107,7 @@ void View::printMap(Map *map) {
             cout << line << endl;
         }
     }
-
+/*
     std::cout << endl <<
     "+---+       +---+---+   +---+---+" << "\n"
     "|   |XXX|XXX|     ! |<O>| !     |" << "\n"
@@ -127,7 +131,7 @@ void View::printMap(Map *map) {
     "|       |XXX|       |XXX|XXX|   |" << "\n"
     "+---+---+   +---+---+       +---+"
     << std::endl;
-
+*/
 }
 
 void View::printLine(const std::string &line) {

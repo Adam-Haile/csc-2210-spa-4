@@ -26,7 +26,9 @@ public:
     virtual string getIcon() = 0;
     virtual string interact(RoomEntity* entity) = 0;
     virtual ~RoomEntity() = default;
-    virtual string getMessage() const { return message; }
+    virtual string getMessage() const {
+        return message;
+    }
 
 protected:
     string message;
@@ -68,7 +70,7 @@ public:
     string interact(RoomEntity* entity) override;
 private:
     string icon;
-    string message;
+    // string message;
 };
 
 // Homework Singleton
@@ -80,7 +82,7 @@ public:
     string interact(RoomEntity* entity) override;
 private:
     string icon;
-    string message;
+    // string message;
 };
 
 // ProcessorOffice Singleton
@@ -92,19 +94,20 @@ public:
     string interact(RoomEntity* entity) override;
 private:
     string icon;
-    string message;
+    // string message;
 };
 
 // Portal Singleton
 class Portal : public Singleton<Portal> {
     friend class Singleton<Portal>;
 public:
-    Portal(Map *map);
+    Portal();
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
+    void setMap(Map* map);
 private:
     string icon;
-    string message;
+    // string message;
     Map* map;
 };
 
@@ -117,19 +120,19 @@ public:
     string interact(RoomEntity* entity) override;
 private:
     string icon;
-    string message;
+    // string message;
 };
 
 // Camera Singleton
 class CameraZone : public Singleton<CameraZone> {
     friend class Singleton<CameraZone>;
 public:
-    explicit CameraZone(Camera *cam);
+    explicit CameraZone();
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
 private:
     string icon;
-    string message;
+    // string message;
     Camera cam;
 };
 
