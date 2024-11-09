@@ -17,9 +17,9 @@ public:
     Player();
     int x;
     int y;
-    int homework;
+    int homework = 3;
     int masks;
-    bool alive;
+    bool alive = true;
     bool inCamera;
     vector<std::string> getInventory();
     vector<std::string> search(Map* map);

@@ -26,7 +26,10 @@ vector<string> Player::search(Map* map) {
                 std::vector<RoomEntity *> * entities = map->getRoom(otherX, otherY)->getEntities();
                 if (!entities->empty()) {
                     for (RoomEntity *entity : *entities) {
-                        result.push_back(entity->getMessage());
+                        std::string message = entity->getMessage();
+                        if (!message.empty()) {
+                            result.push_back(message);
+                        }
                     }
                 }
             }

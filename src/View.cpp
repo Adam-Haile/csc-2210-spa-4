@@ -4,6 +4,7 @@
 
 #include "View.h"
 
+
 View::View() {
     lines = {
         "+---+       +---+---+   +---+---+",
@@ -87,7 +88,8 @@ void View::printState(const std::vector<char> &directions,
 }
 
 void View::printMessages(const std::vector<std::string> &msg) {
-    // Not randomized for right now
+    // Should randomize
+    // std::shuffle(msg.begin(), msg.end(), std::random_device()());
     for (const std::string & message : msg) {
         std::cout << message << endl;
     }

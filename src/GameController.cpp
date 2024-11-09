@@ -53,7 +53,7 @@ void GameController::movePlayer(int difX, int difY) {
 }
 
 int GameController::getGameState(char action) {
-    return action != 'Q' && action != 'q';
+    return action != 'Q' && action != 'q' && Player::getInstance()->alive;
 }
 
 void GameController::endRound(int gameState) {

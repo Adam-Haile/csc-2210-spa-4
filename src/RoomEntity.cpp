@@ -49,12 +49,12 @@ void Portal::setMap(Map *map) {
 }
 Camera::Camera() {
     icon = "<O>";
-    message = "";
+    message = "There's a camera in the corner.";
 }
 
 CameraZone::CameraZone() {
     icon = " ! ";
-    message = "There's a camera in the corner.";
+    message = "The camera can see you nearby."; // Other msg was misleading, this was kinda sucks
 }
 
 string Blank::interact(RoomEntity *entity) {
@@ -80,14 +80,20 @@ string Homework::interact(RoomEntity *entity) {
 }
 
 string ProfessorOffice::interact(RoomEntity *entity) {
+    // Just for testing
     if(entity == Player::getInstance()) {
-        Player::getInstance()->alive = false;
-        return "You got caught! GAME OVER!";
+        if (Player::getInstance()->homework > 0) {
+            Player::getInstance()->homework--;
+            return "You slipped a page of homework under the door!";
+        } else {
+            Player::getInstance()->alive = false;
+            return "You got caught! GAME OVER!";
+        }
     }
-    if (entity == Homework::getInstance()) {
-        Player::getInstance()->homework--;
-        return "You slipped a page of homework under the door!";
-    }
+    // if (entity == Homework::getInstance()) {
+    //     Player::getInstance()->homework--;
+    //     return "You slipped a page of homework under the door!";
+    // }
 
     return "";
 }
@@ -118,7 +124,7 @@ string CameraZone::interact(RoomEntity *entity) {
         if(player->masks > 0 && player->inCamera == false) {
             player->inCamera = true;
             player->masks--;
-            return "You equiped a mask and are anonymous on the cameras.";
+            return "You equipped a mask and are anonymous on the cameras.";
         }
 
         if (player->inCamera == true) {

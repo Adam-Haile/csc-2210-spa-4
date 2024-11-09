@@ -12,8 +12,6 @@
 using namespace std;
 
 Map::Map() : rooms(10, vector<Room>(8)) {
-    // I also messed up, X and Y are flipped
-    // Terrible way to keep track, but will work for now
     vector<string> wall = {"01","02","05","21","22","23","24","26",
         "31","34","36","41","46","51","56","61","63","66",
         "71","73","74","75","76","92","95","96"};
@@ -25,6 +23,7 @@ Map::Map() : rooms(10, vector<Room>(8)) {
     // NOTHING RANDOM RN
     Portal::getInstance()->setMap(this);
     setToRoom(5,7,Mask::getInstance());
+    setToRoom(3,2,Mask::getInstance());
     setToRoom(3,0,Homework::getInstance());
     setToRoom(4,4,Homework::getInstance());
     setToRoom(6,0,Homework::getInstance());
@@ -75,10 +74,20 @@ void Map::moveToRoom(int x, int y, RoomEntity *entity) {
 bool Map::movePlayer(int difX, int difY) {
     int newX = Player::getInstance()->x + difX;
     int newY = Player::getInstance()->y + difY;
-    if (newX >= 0 && newX < 10 && newY >= 0 && newY < 8) {
+    if (newX >= 0 && newX < 10 && newY >= 0 && newY < 8 && rooms[newX][newY].isTraversable()) {
         moveToRoom(newX,newY,Player::getInstance());
+        for (RoomEntity *entity : *rooms[newX][newY].getEntities()) {
+            std::string result = entity->interact(Player::getInstance());
+            if (!result.empty()) {
+                std::cout << result << std::endl;
+            }
+            if (entity == Mask::getInstance() || entity == Homework::getInstance()) {
+                removeFromRoom(Player::getInstance()->x, Player::getInstance()->y, entity);
+            }
+        }
         return true;
     }
+    std::cout << "There was a wall in the way, you did not move at all." << std::endl;
     return false;
 }
 
