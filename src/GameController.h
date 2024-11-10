@@ -19,11 +19,12 @@ public:
     void startGame();
     char startTurn();
     void performAction(char action);
+    void useItem(char direction);
 
     void endRound(int gameState);
     void endGame(int gameState);
     void resetGame();
-    void movePlayer(int difX, int difY);
+    std::vector<std::string> movePlayer(int difX, int difY);
 
 private:
     Map* map;
@@ -32,6 +33,7 @@ private:
     std::string help_message = "helpity help";
     enum state {QUIT, RUNNING, WON, LOST};
     state getGameState(char action);
+    std::vector<std::string> messages;
 };
 
 #endif // GAMECONTROLLER_H

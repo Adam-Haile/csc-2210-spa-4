@@ -49,9 +49,11 @@ Portal::Portal() {
     icon = " ~ ";
     message = "This doorway leads somewhere weird.";
 }
+
 void Portal::setMap(Map *map) {
     this->map = map;
 }
+
 Camera::Camera() {
     icon = "<O>";
     message = "There's a camera in the corner.";
@@ -59,11 +61,10 @@ Camera::Camera() {
 
 CameraZone::CameraZone() {
     icon = " ! ";
-    message = "An ominous eye watches nearby."; // Other msg was misleading, this was kinda sucks
+    message = "The camera can almost see you"; // Other msg was misleading, this was kinda sucks
 }
 
-string Blank::interact(RoomEntity *entity)
-{
+string Blank::interact(RoomEntity *entity) {
     return "";
 }
 
@@ -85,6 +86,7 @@ string Homework::interact(RoomEntity *entity) {
     return "";
 }
 
+//TODO ensure this is correct
 string ProfessorOffice::interact(RoomEntity *entity) {
     // Just for testing
     if(entity == Player::getInstance()) {

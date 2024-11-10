@@ -4,7 +4,6 @@
 
 #include "View.h"
 
-
 View::View() {
     lines = {
         "+---+       +---+---+   +---+---+",
@@ -41,14 +40,10 @@ char View::getInput(const std::vector<char> &validChars) {
     bool valid = false;
     while (!valid) {
         std::cin >> input;
-
         input = std::toupper(input);
 
         for (const char &validChar : validChars) {
-            if (input == std::toupper(validChar)) {
-                valid = true;
-                break;
-            }
+            valid = valid || input == std::toupper(validChar);
         }
 
         if (!valid) {
@@ -81,7 +76,7 @@ void View::printState(const std::vector<char> &directions,
         }
     }
 
-    std::cout << "H(elp), M(ap), Q(uit)" << std::endl;
+    std::cout << "H(elp), M(ap), Q(uit), U(se item)" << std::endl;
     for (std::string item : inventory) {
         std::cout << item << std::endl;
     }
@@ -90,15 +85,15 @@ void View::printState(const std::vector<char> &directions,
 void View::printMessages(const std::vector<std::string> &msg) {
     // Should randomize
     // std::shuffle(msg.begin(), msg.end(), std::random_device()());
-    for (const std::string & message : msg) {
-        std::cout << message << endl;
+    for (const std::string &message : msg) {
+        std::cout << message << std::endl;
     }
 }
 
 void View::printMap(Map *map) {
     for (int i = 0; i < lines.size(); i++) {
         if (i % 2 == 0) {
-            cout << lines[i] << endl;
+            std::cout << lines[i] << std::endl;
         } else {
             std::string line = lines[i];
             for (int j = 0; j < 8; j++) {
@@ -106,7 +101,7 @@ void View::printMap(Map *map) {
                 std::string replacement = map->getRoom((i - 1) / 2, j)->getString();
                 line.replace(line.find(current), current.size(), replacement);
             }
-            cout << line << endl;
+            std::cout << line << std::endl;
         }
     }
 /*

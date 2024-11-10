@@ -10,16 +10,21 @@ Room::Room() {
   addEntity(new Blank(this));
 }
 
-void Room::interactAll(RoomEntity *entity) {
+vector<string> Room::interactAll(RoomEntity *entity) {
+  vector<string> interactions;
   for (RoomEntity *i : entities) {
-    i->interact(entity);
+    string interaction = i->interact(entity);
+    if (!interaction.empty()) {
+      interactions.push_back(interaction);
+    }
   }
+  return interactions;
 }
 
 vector<string> Room::getAllMessages() {
   vector<string> messages;
   for (RoomEntity *i : entities) {
-    if(i->getMessage() != ""){
+    if(!i->getMessage().empty()){
       messages.push_back(i->getMessage());
     }
   }

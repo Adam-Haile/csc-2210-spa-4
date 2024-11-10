@@ -22,7 +22,7 @@ public:
     bool alive = true;
     bool won = false;
     vector<std::string> getInventory();
-    vector<std::string> search(Map* map) const;
+    vector<std::string> search(Map* map);
     string interact(RoomEntity* entity) override;
     // int getHomework();
     // int getMasks();

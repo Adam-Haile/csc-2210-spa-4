@@ -60,8 +60,10 @@ void Map::setToRoom(int x, int y, RoomEntity *entity) {
     }
 }
 
+//TODO fix this or rename, only works for player
 void Map::moveToRoom(int x, int y, RoomEntity *entity) {
-    if (x >= 0 && x < 10 && y >= 0 && y < 8) {
+    bool validRoom = x >= 0 && x < 10 && y >= 0 && y < 8;
+    if (validRoom) {
         if (entity == Player::getInstance()) {
             if (rooms[x][y].isTraversable()) {
                 removeFromRoom(Player::getInstance()->x, Player::getInstance()->y, entity);
@@ -71,26 +73,6 @@ void Map::moveToRoom(int x, int y, RoomEntity *entity) {
             }
         }
     }
-}
-
-bool Map::movePlayer(int difX, int difY) {
-    int newX = Player::getInstance()->x + difX;
-    int newY = Player::getInstance()->y + difY;
-    if (newX >= 0 && newX < 10 && newY >= 0 && newY < 8 && rooms[newX][newY].isTraversable()) {
-        moveToRoom(newX,newY,Player::getInstance());
-        for (RoomEntity *entity : *rooms[newX][newY].getEntities()) {
-            std::string result = entity->interact(Player::getInstance());
-            if (!result.empty()) {
-                std::cout << result << std::endl;
-            }
-            if (entity == Mask::getInstance() || entity == Homework::getInstance()) {
-                removeFromRoom(Player::getInstance()->x, Player::getInstance()->y, entity);
-            }
-        }
-        return true;
-    }
-    std::cout << "There was a wall in the way, you did not move at all." << std::endl;
-    return false;
 }
 
 void Map::removeFromRoom(int x, int y, RoomEntity *entity) {

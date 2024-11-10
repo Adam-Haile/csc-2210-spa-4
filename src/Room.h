@@ -12,7 +12,7 @@ class RoomEntity;
 class Room {
 public:
     Room();
-    void interactAll(RoomEntity *entity);
+    vector<string> interactAll(RoomEntity *entity);
     vector<string> getAllMessages();
     void removeEntity(RoomEntity *entity);
     void addEntity(RoomEntity *entity);

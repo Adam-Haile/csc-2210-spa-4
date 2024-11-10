@@ -11,27 +11,29 @@ Player::Player() {
     message = "";
 }
 
+//TODO
 vector<string> Player::getInventory() {
-    return {};
+    return {
+        "Homework: " + to_string(homework),
+        "Masks: " + to_string(masks)
+    };
 }
 
-vector<string> Player::search(Map* map) const {
-    vector<std::string> result = {};
+vector<string> Player::search(Map* map) {
+    vector<string> result = {};
+    int playerX = x;
+    int playerY = y;
+    //for each adjacent room, get their messages
     for (int dx = -1; dx <= 1; dx ++) {
-        int otherX = x + dx;
+        int X = playerX + dx;
         for (int dy = -1; dy <= 1; dy ++) {
-            if (dx == 0 && dy == 0) continue;
-            int otherY = y + dy;
-            if (otherX >= 0 && otherX < 10 && otherY >= 0 && otherY < 8) {
-                std::vector<RoomEntity *> * entities = map->getRoom(otherX, otherY)->getEntities();
-                if (!entities->empty()) {
-                    for (RoomEntity *entity : *entities) {
-                        std::string message = entity->getMessage();
-                        if (!message.empty()) {
-                            result.push_back(message);
-                        }
-                    }
-                }
+            int Y = playerY + dy;
+            bool playerTile = dx == 0 && dy == 0;
+            bool validTile = X >= 0 && X < 10 && Y >= 0 && Y < 8;
+            if (!playerTile && validTile) {
+                vector<string> messages = map->getRoom(X, Y)->getAllMessages();
+                //add messages to result
+                result.insert(result.end(), messages.begin(), messages.end());
             }
         }
     }
