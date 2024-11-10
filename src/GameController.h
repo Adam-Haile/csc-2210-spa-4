@@ -19,7 +19,7 @@ public:
     void startGame();
     char startTurn();
     void performAction(char action);
-    int getGameState(char action);
+
     void endRound(int gameState);
     void endGame(int gameState);
     void resetGame();
@@ -27,9 +27,11 @@ public:
 
 private:
     Map* map;
-    // Player* player;
+    Player* player;
     View* view;
     std::string help_message = "helpity help";
+    enum state {QUIT, RUNNING, WON, LOST};
+    state getGameState(char action);
 };
 
 #endif // GAMECONTROLLER_H

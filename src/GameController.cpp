@@ -9,7 +9,7 @@ using namespace std;
 GameController::GameController(View* view) {
     this->view = view;
     map = new Map();
-    // player = Player::getInstance();
+    player = Player::getInstance();
 }
 
 GameController::~GameController() {
@@ -17,8 +17,8 @@ GameController::~GameController() {
 }
 
 void GameController::startGame() {
-    int gameState = 1;
-    while (gameState == 1) {
+    state gameState = RUNNING;
+    while (gameState == RUNNING) {
         char action = startTurn();
         performAction(action);
         gameState = getGameState(action);
@@ -27,7 +27,7 @@ void GameController::startGame() {
 }
 
 char GameController::startTurn() {
-    vector<char> directions = {'N', 'E', 'S', 'W'};
+    vector<char> directions = map->getValidDirections(player);
     view->printState(directions, vector<string>{});
     char action = view->getInput(vector<char>{'N', 'E', 'S', 'W', 'H', 'M', 'Q'});
     return action;
@@ -48,12 +48,16 @@ void GameController::performAction(char action) {
 
 void GameController::movePlayer(int difX, int difY) {
     if (map->movePlayer(difX,difY)) {
-        view->printMessages(Player::getInstance()->search(map));
+        view->printMessages(player->search(map));
     }
 }
 
-int GameController::getGameState(char action) {
-    return action != 'Q' && action != 'q' && Player::getInstance()->alive;
+GameController::state GameController::getGameState(char action) {
+    state gamestate = RUNNING;
+    if (action == 'Q') gamestate = QUIT;
+    if (!player->alive) gamestate = LOST;
+    if (player->won) gamestate = WON;
+    return gamestate;
 }
 
 void GameController::endRound(int gameState) {
