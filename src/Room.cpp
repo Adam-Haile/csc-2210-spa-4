@@ -30,61 +30,62 @@ bool Room::canTeleport() const {
   return isTraversable() && entities.empty();
 }
 
-
 std::string Room::getString() {
-  int level = 0;
-  std::string toReturn = "   ";
-  if (!traversable) {
-    level = 2;
-    toReturn = "XXX";
-  }
-  for (RoomEntity * i : entities) {
-    switch (i -> getIcon().at(1)) {
-      case '!':
-        if (level < 1) {
-          level = 1;
-          toReturn = " ! ";
-        }
-      break;
-      case 'O':
-        if (level < 3) {
-          level = 3;
-          toReturn = "<O>";
-        }
-        break;
-      case '>':
-        if (level < 4) {
-          level = 4;
-          toReturn = " > ";
-        }
-        break;
-      case 'H':
-        if (level < 5) {
-          level = 5;
-          toReturn = " H ";
-        }
-        break;
-      case '#':
-        if (level < 6) {
-          level = 6;
-          toReturn = " # ";
-        }
-        break;
-      case '~':
-        if (level < 7) {
-          level = 7;
-          toReturn = " ~ ";
-        }
-        break;
-      case 'P':
-        if (level < 8) {
-          level = 8;
-          toReturn = " P ";
-        }
-        break;
-    }
-  }
-  return toReturn;
+  RoomEntity *entity = entities.front();
+  return entity->getIcon();
+  // int level = 0;
+  // std::string toReturn = "   ";
+  // if (!traversable) {
+  //   level = 2;
+  //   toReturn = "XXX";
+  // }
+  // for (RoomEntity * i : entities) {
+  //   switch (i -> getIcon().at(1)) {
+  //     case '!':
+  //       if (level < 1) {
+  //         level = 1;
+  //         toReturn = " ! ";
+  //       }
+  //     break;
+  //     case 'O':
+  //       if (level < 3) {
+  //         level = 3;
+  //         toReturn = "<O>";
+  //       }
+  //       break;
+  //     case '>':
+  //       if (level < 4) {
+  //         level = 4;
+  //         toReturn = " > ";
+  //       }
+  //       break;
+  //     case 'H':
+  //       if (level < 5) {
+  //         level = 5;
+  //         toReturn = " H ";
+  //       }
+  //       break;
+  //     case '#':
+  //       if (level < 6) {
+  //         level = 6;
+  //         toReturn = " # ";
+  //       }
+  //       break;
+  //     case '~':
+  //       if (level < 7) {
+  //         level = 7;
+  //         toReturn = " ~ ";
+  //       }
+  //       break;
+  //     case 'P':
+  //       if (level < 8) {
+  //         level = 8;
+  //         toReturn = " P ";
+  //       }
+  //       break;
+  //   }
+  // }
+  // return toReturn;
   // idk if there's a better way
   //  !  Camera Zone - 1
   // XXX Not Traversable - 2
