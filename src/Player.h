@@ -18,16 +18,16 @@ public:
     int x;
     int y;
     int homework = 3;
-    int masks;
+    int masks = 0;
     bool alive = true;
-    bool inCamera;
+    bool won = false;
     vector<std::string> getInventory();
-    vector<std::string> search(Map* map);
+    vector<std::string> search(Map* map) const;
     string interact(RoomEntity* entity) override;
-    int getHomework();
-    int getMasks();
-    void setHomework(int homework);
-    void setMask(int masks);
+    // int getHomework();
+    // int getMasks();
+    // void setHomework(int homework);
+    // void setMask(int masks);
     string getIcon() override {return icon; };
 private:
     string icon;

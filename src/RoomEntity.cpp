@@ -54,7 +54,7 @@ Camera::Camera() {
 
 CameraZone::CameraZone() {
     icon = " ! ";
-    message = "The camera can see you nearby."; // Other msg was misleading, this was kinda sucks
+    message = "An ominous eye watches nearby."; // Other msg was misleading, this was kinda sucks
 }
 
 string Blank::interact(RoomEntity *entity) {
@@ -82,22 +82,23 @@ string Homework::interact(RoomEntity *entity) {
 string ProfessorOffice::interact(RoomEntity *entity) {
     // Just for testing
     if(entity == Player::getInstance()) {
-        if (Player::getInstance()->homework > 0) {
-            Player::getInstance()->homework--;
-            return "You slipped a page of homework under the door!";
-        } else {
-            Player::getInstance()->alive = false;
-            return "You got caught! GAME OVER!";
-        }
+        // if (Player::getInstance()->homework > 0) {
+        //     Player::getInstance()->homework--;
+        //     return "You slipped a page of homework under the door!";
+        // } else {
+        Player::getInstance()->alive = false;
+        return "You got caught!";
+        // }
     }
-    // if (entity == Homework::getInstance()) {
-    //     Player::getInstance()->homework--;
-    //     return "You slipped a page of homework under the door!";
-    // }
-
+    if (entity == Homework::getInstance()) {
+        // Player::getInstance()->homework--; //TODO either add this to Blank or a Player Action
+        Player::getInstance()->won = true;
+        return "You slipped a page of homework under the door!";
+    }
     return "";
 }
 
+//TODO avoid magic numbers
 string Portal::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
         int i = getRandomInt(0, 10);
@@ -112,7 +113,6 @@ string Portal::interact(RoomEntity *entity) {
     return "";
 }
 
-
 string Camera::interact(RoomEntity *entity) {
     return "";
 }
@@ -121,21 +121,31 @@ string CameraZone::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
         Player *player = Player::getInstance();
 
-        if(player->masks > 0 && player->inCamera == false) {
-            player->inCamera = true;
+        if(player->masks > 0 && this->watching == false) {
+            this->watching = true;
             player->masks--;
             return "You equipped a mask and are anonymous on the cameras.";
         }
 
-        if (player->inCamera == true) {
+        if (this->watching == true) {
             return "You are sneaking through the cameras.";
         }
 
         if (player->masks == 0) {
             player->alive = false;
-            return "You got caught by the cameras! GAME OVER!";
+            return "You got caught by the cameras!";
         }
+
+        //TODO
+        // if (something) {
+        //     this->watching = false;
+        //     return "You've left the sight of the cameras. They'll remember you next time...";
+        // }
     }
 
     return "";
+}
+
+string CameraZone::getMessage() const {
+    return this->watching ? "" : this->message;
 }

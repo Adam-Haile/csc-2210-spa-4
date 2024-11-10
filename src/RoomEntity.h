@@ -130,10 +130,12 @@ public:
     explicit CameraZone();
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
+    string getMessage() const override;
 private:
     string icon;
     // string message;
     Camera cam;
+    bool watching;
 };
 
 #endif // ROOMENTITY_H
