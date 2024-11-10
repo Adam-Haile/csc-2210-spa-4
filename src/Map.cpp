@@ -11,6 +11,9 @@
 
 using namespace std;
 
+//TODO
+//Make random generation
+//Make portal be in a normally non-traversable room
 Map::Map() : rooms(10, vector<Room>(8)) {
     vector<string> wall = {"01","02","05","21","22","23","24","26",
         "31","34","36","41","46","51","56","61","63","66",
@@ -31,7 +34,6 @@ Map::Map() : rooms(10, vector<Room>(8)) {
     setToRoom(8,6,Player::getInstance());
     Player::getInstance()->x = 8;
     Player::getInstance()->y = 6;
-
 
     addCamera(0,5);
     addCamera(7,3);
@@ -91,11 +93,19 @@ bool Map::movePlayer(int difX, int difY) {
     return false;
 }
 
-
 void Map::removeFromRoom(int x, int y, RoomEntity *entity) {
     if (x >= 0 && x < 10 && y >= 0 && y < 8) {
         rooms[x][y].removeEntity(entity);
     }
 }
 
-
+vector<char> Map::getValidDirections(Player *player) const {
+    vector<char> validDirections;
+    int x = player->x;
+    int y = player->y;
+    if (rooms[x][y+1].isTraversable()) validDirections.push_back('N');
+    if (rooms[x][y-1].isTraversable()) validDirections.push_back('S');
+    if (rooms[x+1][y].isTraversable()) validDirections.push_back('E');
+    if (rooms[x-1][y].isTraversable()) validDirections.push_back('W');
+    return validDirections;
+}
