@@ -20,9 +20,14 @@ int getRandomInt(int min, int max) {
     return dist(gen);
 }
 
-Blank::Blank() {
+Blank::Blank(Room *room){
     icon = "   ";
+    nonTraversableIcon = "XXX";
     message = "";
+}
+
+string Blank::getIcon() {
+    return room->isTraversable() ? icon : nonTraversableIcon;
 }
 
 Mask::Mask() {
@@ -57,7 +62,8 @@ CameraZone::CameraZone() {
     message = "An ominous eye watches nearby."; // Other msg was misleading, this was kinda sucks
 }
 
-string Blank::interact(RoomEntity *entity) {
+string Blank::interact(RoomEntity *entity)
+{
     return "";
 }
 

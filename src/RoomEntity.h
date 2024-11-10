@@ -49,16 +49,17 @@ protected:
     ~Singleton() = default;
 };
 
-// Blank Singleton
-class Blank : public Singleton<Blank> {
-    friend class Singleton<Blank>; // Allows access to protected constructor
+// Blank entity
+class Blank : public RoomEntity {
 public:
-    Blank();
-    string getIcon() override { return icon; };
+    Blank(Room *room);
+    string getIcon() override;
     string interact(RoomEntity* entity) override;
 private:
     string icon;
+    string nonTraversableIcon;
     string message;
+    Room *room;
 };
 
 // Mask Singleton
