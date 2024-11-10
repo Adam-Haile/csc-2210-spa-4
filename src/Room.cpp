@@ -5,6 +5,27 @@
 #include "Room.h"
 #include <algorithm>
 
+Room::Room() {
+  entities = std::vector<RoomEntity*>();
+  addEntity(new Blank(this));
+}
+
+void Room::interactAll(RoomEntity *entity) {
+  for (RoomEntity *i : entities) {
+    i->interact(entity);
+  }
+}
+
+vector<string> Room::getAllMessages() {
+  vector<string> messages;
+  for (RoomEntity *i : entities) {
+    if(i->getMessage() != ""){
+      messages.push_back(i->getMessage());
+    }
+  }
+  return messages;
+}
+
 void Room::removeEntity(RoomEntity *entity) {
   // Took me forever to figure out
   // It'll iterate through the vector until it finds entity, or it reaches the end
@@ -15,7 +36,8 @@ void Room::removeEntity(RoomEntity *entity) {
 }
 
 void Room::addEntity(RoomEntity *entity) {
-  entities.push_back(entity);
+  //add entity to front
+  entities.insert(entities.begin(), entity);
 }
 
 void Room::setTraversable(const bool traversable) {
@@ -27,7 +49,7 @@ bool Room::isTraversable() const {
 }
 
 bool Room::canTeleport() const {
-  return isTraversable() && entities.empty();
+  return traversable && entities.size() == 1;
 }
 
 std::string Room::getString() {
