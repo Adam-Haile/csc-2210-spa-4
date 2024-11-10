@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "Player.h"
 #include "Room.h"
 
 class Room;
@@ -20,6 +21,9 @@ public:
     void removeFromRoom(int x, int y, RoomEntity* entity);
     bool movePlayer(int difX, int difY);
     Room* getRoom(int x, int y);
+
+    vector<char> getValidDirections(Player * player) const;
+
 private:
     std::vector<std::vector<Room>> rooms;
     void addCamera(int x, int y);

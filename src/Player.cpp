@@ -15,7 +15,7 @@ vector<string> Player::getInventory() {
     return {};
 }
 
-vector<string> Player::search(Map* map) {
+vector<string> Player::search(Map* map) const {
     vector<std::string> result = {};
     for (int dx = -1; dx <= 1; dx ++) {
         int otherX = x + dx;
