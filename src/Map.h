@@ -22,7 +22,7 @@ public:
     void removeFromRoom(int x, int y, RoomEntity* entity);
     // bool movePlayer(int difX, int difY);
     Room* getRoom(int x, int y);
-
+    bool validRoom(int x, int y);
     vector<char> getValidDirections(Player *player) const;
 
 private:

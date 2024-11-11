@@ -51,43 +51,46 @@ void Map::addCamera(int x, int y) {
 }
 
 Room* Map::getRoom(int x, int y) {
-    return &rooms[x][y];
+    return &rooms[y][x];
 }
 
 void Map::setToRoom(int x, int y, RoomEntity *entity) {
-    if (x >= 0 && x < 10 && y >= 0 && y < 8) {
-        rooms[x][y].addEntity(entity);
+    if (validRoom(x, y)) {
+        rooms[y][x].addEntity(entity);
     }
 }
 
 //TODO fix this or rename, only works for player
 void Map::moveToRoom(int x, int y, RoomEntity *entity) {
-    bool validRoom = x >= 0 && x < 10 && y >= 0 && y < 8;
-    if (validRoom) {
+    if (validRoom(x, y)) {
         if (entity == Player::getInstance()) {
-            if (rooms[x][y].isTraversable()) {
+            if (getRoom(x,y)->isTraversable()) {
                 removeFromRoom(Player::getInstance()->x, Player::getInstance()->y, entity);
                 Player::getInstance()->x = x;
                 Player::getInstance()->y = y;
-                rooms[x][y].addEntity(entity);
+                getRoom(x,y)->addEntity(entity);
             }
         }
     }
 }
 
 void Map::removeFromRoom(int x, int y, RoomEntity *entity) {
-    if (x >= 0 && x < 10 && y >= 0 && y < 8) {
-        rooms[x][y].removeEntity(entity);
+    if (validRoom(x, y)) {
+        rooms[y][x].removeEntity(entity);
     }
+}
+
+bool Map::validRoom(int x, int y) {
+    return y >= 0 && y < 10 && x >= 0 && x < 8;
 }
 
 vector<char> Map::getValidDirections(Player *player) const {
     vector<char> validDirections;
     int x = player->x;
     int y = player->y;
-    if (rooms[x-1][y].isTraversable()) validDirections.push_back('N');
-    if (rooms[x+1][y].isTraversable()) validDirections.push_back('S');
-    if (rooms[x][y-1].isTraversable()) validDirections.push_back('E');
-    if (rooms[x][y+1].isTraversable()) validDirections.push_back('W');
+    if (validRoom && rooms[x][y+1].isTraversable()) validDirections.push_back('N');
+    if (validRoom && rooms[x][y-1].isTraversable()) validDirections.push_back('S');
+    if (validRoom && rooms[x+1][y].isTraversable()) validDirections.push_back('E');
+    if (validRoom && rooms[x-1][y].isTraversable()) validDirections.push_back('W');
     return validDirections;
 }
