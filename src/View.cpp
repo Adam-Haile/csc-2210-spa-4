@@ -108,7 +108,7 @@ void View::printMap(Map *map) {
             std::string line = lines[i];
             for (int j = 0; j < 8; j++) {
                 std::string current = to_string((i - 1) / 2) + to_string(j) + " ";
-                std::string replacement = map->getRoom((i - 1) / 2, j)->getString();
+                std::string replacement = map->getRoom(j, (i - 1) / 2)->getString();
                 line.replace(line.find(current), current.size(), replacement);
             }
             std::cout << line << std::endl;

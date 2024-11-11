@@ -18,7 +18,7 @@ public:
     ~GameController();
     void startGame();
     char startTurn();
-    void performAction(char action);
+    vector<string> performAction(char action);
     void useItem(char direction, RoomEntity* item);
 
     void endRound(int gameState);
@@ -33,7 +33,7 @@ private:
     std::string help_message = "helpity help";
     enum state {QUIT, RUNNING, WON, LOST};
     state getGameState(char action);
-    std::vector<std::string> messages;
+    std::vector<std::string> interactions;
 };
 
 #endif // GAMECONTROLLER_H

@@ -30,19 +30,19 @@ Map::Map() {
     }
 
     Portal::getInstance()->setMap(this);
-    setToRoom(5, 7, Mask::getInstance());
-    setToRoom(3, 2, Mask::getInstance());
-    setToRoom(3, 0, Homework::getInstance());
+    setToRoom(7, 5, Mask::getInstance());
+    setToRoom(2, 3, Mask::getInstance());
+    setToRoom(0, 3, Homework::getInstance());
     setToRoom(4, 4, Homework::getInstance());
-    setToRoom(6, 0, Homework::getInstance());
+    setToRoom(0, 6, Homework::getInstance());
     setToRoom(1, 1, ProfessorOffice::getInstance());
-    setToRoom(8, 6, Player::getInstance());
-    Player::getInstance()->x = 8;
-    Player::getInstance()->y = 6;
+    setToRoom(6, 8, Player::getInstance());
+    Player::getInstance()->x = 6;
+    Player::getInstance()->y = 8;
 
-    addCamera(0, 5);
-    addCamera(7, 3);
-    setToRoom(0, 7, Portal::getInstance());
+    addCamera(5, 0);
+    addCamera(3, 7);
+    setToRoom(7, 0, Portal::getInstance());
 }
 
 
@@ -90,13 +90,13 @@ bool Map::validRoom(int x, int y) {
     return y >= 0 && y < 10 && x >= 0 && x < 8;
 }
 
-vector<char> Map::getValidDirections(Player *player) const {
+vector<char> Map::getValidDirections(Player *player) {
     vector<char> validDirections;
     int x = player->x;
     int y = player->y;
-    if (validRoom && rooms[x][y+1].isTraversable()) validDirections.push_back('N');
-    if (validRoom && rooms[x][y-1].isTraversable()) validDirections.push_back('S');
-    if (validRoom && rooms[x+1][y].isTraversable()) validDirections.push_back('E');
-    if (validRoom && rooms[x-1][y].isTraversable()) validDirections.push_back('W');
+    if (validRoom(x,y+1) && getRoom(x, y+1)->isTraversable()) validDirections.push_back('N');
+    if (validRoom(x,y-1) && getRoom(x, y-1)->isTraversable()) validDirections.push_back('S');
+    if (validRoom(x+1,y) && getRoom(x+1, y)->isTraversable()) validDirections.push_back('E');
+    if (validRoom(x-1,y) && getRoom(x-1, y)->isTraversable()) validDirections.push_back('W');
     return validDirections;
 }
