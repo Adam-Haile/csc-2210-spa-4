@@ -19,7 +19,7 @@ public:
     void startGame();
     char startTurn();
     void performAction(char action);
-    void useItem(char direction);
+    void useItem(char direction, RoomEntity* item);
 
     void endRound(int gameState);
     void endGame(int gameState);

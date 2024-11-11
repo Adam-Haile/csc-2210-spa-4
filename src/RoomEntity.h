@@ -13,6 +13,7 @@ using namespace std;
 #include "Map.h"
 
 class Map;
+class Room;
 class Blank;
 class Mask;
 class Homework;

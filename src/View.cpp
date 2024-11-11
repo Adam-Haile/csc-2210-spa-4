@@ -34,6 +34,7 @@ View::~View() {
 }
 
 #include <cctype> // for toupper
+#include <unordered_map> // for std::unordered_map
 
 char View::getInput(const std::vector<char> &validChars) {
     char input;
@@ -57,28 +58,37 @@ void View::printState(const std::vector<char> &directions,
     const std::vector<std::string> &inventory) {
     //print directions like N(orth), S(outh), E(ast), W(est)
     std::cout << "Actions: ";
-    for (char dir : directions) {
-        switch (dir) {
-            case 'N':
-                std::cout << "N(orth), ";
-                break;
-            case 'S':
-                std::cout << "S(outh), ";
-                break;
-            case 'E':
-                std::cout << "E(ast), ";
-                break;
-            case 'W':
-                std::cout << "W(est), ";
-                break;
-            default:
-                break;
-        }
-    }
-
+    printValidDirections(directions);
+    std::cout << ", ";
     std::cout << "H(elp), M(ap), Q(uit), U(se item)" << std::endl;
+    //TODO make inline
     for (std::string item : inventory) {
         std::cout << item << std::endl;
+    }
+}
+
+/**
+ * Prints the valid directions corresponding to the direction list passed in.
+ * Prints all on the same line, no endl
+ * @param directions a list of chars, either N, S, E or W.
+ */
+void View::printValidDirections(const std::vector<char> &directions) {
+    std::unordered_map<char, std::string> directionMap = {
+        {'N', "N(orth)"},
+        {'S', "S(outh)"},
+        {'E', "E(ast)"},
+        {'W', "W(est)"}
+    };
+    std::vector<std::string> validDirections;
+    for (const char &direction : directions) {
+        validDirections.push_back(directionMap[direction]);
+    }
+
+    for (size_t i = 0; i < validDirections.size(); ++i) {
+        std::cout << validDirections[i];
+        if (i < validDirections.size() - 1) {
+            std::cout << ", ";
+        }
     }
 }
 
@@ -131,6 +141,9 @@ void View::printMap(Map *map) {
 */
 }
 
-void View::printLine(const std::string &line) {
-
+void View::printLine(const std::string &line, bool endline) {
+    cout << line;
+    if (endline) {
+        cout << std::endl;
+    }
 }

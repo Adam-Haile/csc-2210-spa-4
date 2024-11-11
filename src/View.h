@@ -17,9 +17,10 @@ public:
     char getInput(const std::vector<char>& validChars);
     void printState(const std::vector<char>& directions,
         const std::vector<std::string>& inventory);
+    static void printValidDirections(const std::vector<char>& directions);
     void printMessages(const std::vector<std::string>& msg);
     void printMap(Map* map);
-    void printLine(const std::string& line);
+    void printLine(const std::string& line, bool endline = true);
 private:
     std::vector<std::string> lines;
 };

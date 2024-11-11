@@ -7,11 +7,12 @@
 
 #include <vector>
 
-#include "Player.h"
+// #include "Player.h"
 #include "Room.h"
 
 class Room;
 class RoomEntity;
+class Player;
 
 class Map {
 public:
@@ -19,10 +20,10 @@ public:
     void setToRoom(int x, int y, RoomEntity* entity);
     void moveToRoom(int x, int y, RoomEntity* entity);
     void removeFromRoom(int x, int y, RoomEntity* entity);
-    bool movePlayer(int difX, int difY);
+    // bool movePlayer(int difX, int difY);
     Room* getRoom(int x, int y);
 
-    vector<char> getValidDirections(Player * player) const;
+    vector<char> getValidDirections(Player *player) const;
 
 private:
     std::vector<std::vector<Room>> rooms;

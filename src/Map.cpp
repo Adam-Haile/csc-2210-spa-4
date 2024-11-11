@@ -85,9 +85,9 @@ vector<char> Map::getValidDirections(Player *player) const {
     vector<char> validDirections;
     int x = player->x;
     int y = player->y;
-    if (rooms[x][y+1].isTraversable()) validDirections.push_back('N');
-    if (rooms[x][y-1].isTraversable()) validDirections.push_back('S');
-    if (rooms[x+1][y].isTraversable()) validDirections.push_back('E');
-    if (rooms[x-1][y].isTraversable()) validDirections.push_back('W');
+    if (rooms[x-1][y].isTraversable()) validDirections.push_back('N');
+    if (rooms[x+1][y].isTraversable()) validDirections.push_back('S');
+    if (rooms[x][y-1].isTraversable()) validDirections.push_back('E');
+    if (rooms[x][y+1].isTraversable()) validDirections.push_back('W');
     return validDirections;
 }

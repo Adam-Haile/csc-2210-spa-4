@@ -3,11 +3,8 @@
 //
 #include <stdexcept>
 #include <random>
-
 #include "RoomEntity.h"
-
 #include <map>
-
 #include "Player.h"
 
 using namespace std;
@@ -24,6 +21,7 @@ Blank::Blank(Room *room){
     icon = "   ";
     nonTraversableIcon = "XXX";
     message = "";
+    this->room = room;
 }
 
 string Blank::getIcon() {
