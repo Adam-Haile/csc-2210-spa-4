@@ -22,7 +22,7 @@ public:
     std::string getString();
     std::vector<RoomEntity *> *getEntities();
 private:
-    bool traversable = true;
+    bool traversable;
     std::vector<RoomEntity*> entities;
 };
 

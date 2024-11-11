@@ -5,7 +5,7 @@
 #include "Room.h"
 #include <algorithm>
 
-Room::Room() {
+Room::Room() : traversable(true) {
   entities = std::vector<RoomEntity*>();
   addEntity(new Blank(this));
 }

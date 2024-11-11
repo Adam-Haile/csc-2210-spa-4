@@ -14,31 +14,37 @@ using namespace std;
 //TODO
 //Make random generation
 //Make portal be in a normally non-traversable room
-Map::Map() : rooms(10, vector<Room>(8)) {
+Map::Map() {
+    rooms.resize(10); // Create 10 rows
+    for (int i = 0; i < 10; ++i) {
+        rooms[i].resize(8); // Create 8 columns for each row
+    }
+
     vector<string> wall = {"01","02","05","21","22","23","24","26",
-        "31","34","36","41","46","51","56","61","63","66",
-        "71","73","74","75","76","92","95","96"};
+                           "31","34","36","41","46","51","56","61","63","66",
+                           "71","73","74","75","76","92","95","96"};
     for (string s : wall) {
         int i = s[0] - '0';
         int j = s[1] - '0';
         rooms[i][j].setTraversable(false);
     }
-    // NOTHING RANDOM RN
+
     Portal::getInstance()->setMap(this);
-    setToRoom(5,7,Mask::getInstance());
-    setToRoom(3,2,Mask::getInstance());
-    setToRoom(3,0,Homework::getInstance());
-    setToRoom(4,4,Homework::getInstance());
-    setToRoom(6,0,Homework::getInstance());
-    setToRoom(1,1,ProfessorOffice::getInstance());
-    setToRoom(8,6,Player::getInstance());
+    setToRoom(5, 7, Mask::getInstance());
+    setToRoom(3, 2, Mask::getInstance());
+    setToRoom(3, 0, Homework::getInstance());
+    setToRoom(4, 4, Homework::getInstance());
+    setToRoom(6, 0, Homework::getInstance());
+    setToRoom(1, 1, ProfessorOffice::getInstance());
+    setToRoom(8, 6, Player::getInstance());
     Player::getInstance()->x = 8;
     Player::getInstance()->y = 6;
 
-    addCamera(0,5);
-    addCamera(7,3);
-    setToRoom(0,7,Portal::getInstance());
+    addCamera(0, 5);
+    addCamera(7, 3);
+    setToRoom(0, 7, Portal::getInstance());
 }
+
 
 void Map::addCamera(int x, int y) {
     setToRoom(x,y,Camera::getInstance());
