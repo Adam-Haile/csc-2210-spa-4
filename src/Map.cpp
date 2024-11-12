@@ -51,7 +51,10 @@ void Map::addCamera(int x, int y) {
     for (int dx = -1; dx <= 1; dx ++) {
         for (int dy = -1; dy <= 1; dy ++) {
             if (dx == 0 && dy == 0) continue;
-            setToRoom(x + dx, y + dy,CameraZone::getInstance());
+            Room *room = validRoom(x + dx, y + dy) ? getRoom(x + dx, y + dy) : nullptr;
+            if (room && room->isTraversable()) {
+                room->addEntity(CameraZone::getInstance());
+            }
         }
     }
 }
