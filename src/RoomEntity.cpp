@@ -2,20 +2,11 @@
 // Created by milleraa on 10/29/2024.
 //
 #include <stdexcept>
-#include <random>
 #include "RoomEntity.h"
 #include <map>
 #include "Player.h"
 
 using namespace std;
-
-int getRandomInt(int min, int max) {
-    // Initialize random number generator with a seed from the random_device
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(min, max);
-    return dist(gen);
-}
 
 Blank::Blank(Room *room){
     icon = "   ";
@@ -107,16 +98,16 @@ string ProfessorOffice::interact(RoomEntity *entity) {
 //TODO avoid magic numbers
 string Portal::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
-        int i = getRandomInt(0, 10);
-        int j = getRandomInt(0, 8);
-        while(!map->getRoom(i,j)->canTeleport()) {
-            i = getRandomInt(0, 10);
-            j = getRandomInt(0, 8);
+        int x;
+        int y;
+        Room * room = map->getRandomRoom(true, x, y);
+        while(!room->canTeleport()) {
+            room = map->getRandomRoom(true, x, y);
         }
-        map->moveToRoom(i, j, entity);
+        map->moveToRoom(x, y, Player::getInstance());
     }
 
-    return "";
+    return "You have encountered weird architecture.";
 }
 
 string Camera::interact(RoomEntity *entity) {

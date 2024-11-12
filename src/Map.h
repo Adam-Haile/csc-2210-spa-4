@@ -17,6 +17,11 @@ class Player;
 class Map {
 public:
     Map();
+    Map(int playerX, int playerY);
+    void spawnRandomCamera();
+    bool cameraContainsEntity(RoomEntity * entity, int x, int y);
+    Room* getRandomRoom(bool isTraverseable);
+    Room* getRandomRoom(bool isTraverseable, int& x, int& y);
     void setToRoom(int x, int y, RoomEntity* entity);
     void moveToRoom(int x, int y, RoomEntity* entity);
     void removeFromRoom(int x, int y, RoomEntity* entity);

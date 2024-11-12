@@ -2,19 +2,17 @@
 // Created by milleraa on 10/29/2024.
 //
 
+#include <random>
 #include <iostream>
+
 #include "Map.h"
-
-#include <set>
-
 #include "Player.h"
 
 using namespace std;
 
-//TODO
-//Make random generation
-//Make portal be in a normally non-traversable room
-Map::Map() {
+Map::Map() : Map(-1, -1) {}
+
+Map::Map(int playerX, int playerY) {
     rooms.resize(10); // Create 10 rows
     for (int i = 0; i < 10; ++i) {
         rooms[i].resize(8); // Create 8 columns for each row
@@ -29,22 +27,84 @@ Map::Map() {
         rooms[i][j].setTraversable(false);
     }
 
-    Portal::getInstance()->setMap(this);
-    setToRoom(7, 5, Mask::getInstance());
-    setToRoom(2, 3, Mask::getInstance());
-    setToRoom(0, 3, Homework::getInstance());
-    setToRoom(4, 4, Homework::getInstance());
-    setToRoom(0, 6, Homework::getInstance());
-    setToRoom(1, 1, ProfessorOffice::getInstance());
-    setToRoom(6, 8, Player::getInstance());
-    Player::getInstance()->x = 6;
-    Player::getInstance()->y = 8;
+    int x, y;
+    if (playerX < 0 && playerY < 0) {
+        getRandomRoom(true, x, y)->addEntity(Player::getInstance());
+        Player::getInstance()->x = x;
+        Player::getInstance()->y = y;
+    } else if (validRoom(playerX, playerY)) {
+        getRoom(playerX, playerY)->addEntity(Player::getInstance());
+        Player::getInstance()->x = playerX;
+        Player::getInstance()->y = playerY;
+    } else {
+        cerr << "Player spawn is an invalid room";
+    }
 
-    addCamera(5, 0);
-    addCamera(3, 7);
-    setToRoom(7, 0, Portal::getInstance());
+    spawnRandomCamera();
+    spawnRandomCamera();
+
+    Portal::getInstance()->setMap(this);
+    getRandomRoom(true)->addEntity(Mask::getInstance());
+    getRandomRoom(true)->addEntity(Mask::getInstance());
+    getRandomRoom(true)->addEntity(Homework::getInstance());
+    getRandomRoom(true)->addEntity(Homework::getInstance());
+    getRandomRoom(true)->addEntity(Homework::getInstance());
+    getRandomRoom(true)->addEntity(ProfessorOffice::getInstance());
+    getRandomRoom(false, x, y)->addEntity(Portal::getInstance());
+    getRoom(x, y)->setTraversable(true);
 }
 
+bool Map::cameraContainsEntity(RoomEntity * entity, int x, int y) {
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx == 0 && dy == 0) {
+                continue;
+            }
+            if (validRoom(x + dx, y + dx) && !getRoom(x + dx, y + dy)->contains(entity)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+void Map::spawnRandomCamera() {
+    int x, y;
+    this->getRandomRoom(false, x, y);
+    while(this->cameraContainsEntity(Player::getInstance(), x, y) ||
+            this->cameraContainsEntity(ProfessorOffice::getInstance(), x, y) ||
+            this->cameraContainsEntity(Mask::getInstance(), x, y)) {
+        this->getRandomRoom(false, x, y);
+    }
+
+    addCamera(x, y);
+}
+
+
+
+Room* Map::getRandomRoom(bool isTraverseable) {
+    int x, y;
+    return getRandomRoom(isTraverseable, x, y);
+}
+
+Room* Map::getRandomRoom(bool isTraverseable, int &x, int &y) {
+    // Initialize random number generator with a seed from the random_device
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    while (!false) {
+        std::uniform_int_distribution<int> distX(0, 7);
+        x = distX(gen);
+
+        std::uniform_int_distribution<int> distY(0, 9);
+        y = distY(gen);
+
+        if (validRoom(x, y) && getRoom(x, y)->isTraversable() == isTraverseable) {
+            return getRoom(x, y);
+        }
+    }
+}
 
 void Map::addCamera(int x, int y) {
     setToRoom(x,y,Camera::getInstance());
