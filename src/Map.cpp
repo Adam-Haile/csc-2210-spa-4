@@ -10,6 +10,10 @@
 
 using namespace std;
 
+const static int GLOBAL_SEED = 12345;
+
+std::mt19937 gen(GLOBAL_SEED);
+
 Map::Map() : Map(-1, -1) {}
 
 Map::Map(int playerX, int playerY) {
@@ -57,11 +61,11 @@ Map::Map(int playerX, int playerY) {
 bool Map::cameraContainsEntity(RoomEntity * entity, int x, int y) {
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
-            if (dx == 0 && dy == 0) {
-                continue;
-            }
-            if (validRoom(x + dx, y + dx) && !getRoom(x + dx, y + dy)->contains(entity)) {
-                return false;
+            if (dx == 0 && dy == 0) continue;
+            if (validRoom(x + dx, y + dy)) {
+                if(!getRoom(x + dx, y + dy)->contains(entity)) {
+                    return false;
+                }
             }
         }
     }
@@ -92,16 +96,15 @@ Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty) {
     return getRandomRoom(isTraverseable, isEmpty, x, y);
 }
 
+#include <random>
+
 Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty, int &x, int &y) {
-    // Initialize random number generator with a seed from the random_device
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    // Use the global random number generator
+    std::uniform_int_distribution<int> distX(0, 7);
+    std::uniform_int_distribution<int> distY(0, 9);
 
-    while (!false) {
-        std::uniform_int_distribution<int> distX(0, 7);
+    while (true) {
         x = distX(gen);
-
-        std::uniform_int_distribution<int> distY(0, 9);
         y = distY(gen);
 
         if (validRoom(x, y) && getRoom(x, y)->isEmpty() && getRoom(x, y)->isTraversable() == isTraverseable) {
@@ -109,6 +112,7 @@ Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty, int &x, int &y) {
         }
     }
 }
+
 
 void Map::addCamera(int x, int y) {
     setToRoom(x,y,Camera::getInstance());

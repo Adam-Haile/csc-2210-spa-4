@@ -7,7 +7,7 @@
 using namespace std;
 
 Player::Player() {
-    icon = " P ";
+    icon = "\33[92m P \33[0m";
     message = "";
 }
 
