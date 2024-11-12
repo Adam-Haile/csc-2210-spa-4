@@ -3,6 +3,8 @@
 //
 
 #include "View.h"
+#include <optional>
+#include <algorithm> // for std::remove
 
 View::View() {
     lines = {
@@ -55,16 +57,18 @@ char View::getInput(const std::vector<char> &validChars) {
 }
 
 void View::printState(const std::vector<char> &directions,
-    const std::vector<std::string> &inventory) {
+    const std::vector<std::string> &inventory, std::vector<string> localMap) {
     //print directions like N(orth), S(outh), E(ast), W(est)
     std::cout << "Actions: ";
     printValidDirections(directions);
     std::cout << ", ";
     std::cout << "H(elp), M(ap), Q(uit), U(se item)" << std::endl;
-    //TODO make inline
-    for (std::string item : inventory) {
-        std::cout << item << std::endl;
-    }
+    std::cout << "Inventory:" << "    " << localMap[0];
+    std::cout << "  " << localMap[1] << std::endl;
+    std::cout << inventory[0] << "   " << "            ";
+    std::cout << localMap[2] << std::endl;
+    std::cout << inventory[1] << "      " << "            ";
+    std::cout << localMap[3] << std::endl;
 }
 
 /**
@@ -98,6 +102,39 @@ void View::printMessages(const std::vector<std::string> &msg) {
     for (const std::string &message : msg) {
         std::cout << message << std::endl;
     }
+}
+
+vector<string> View::generateLocalMap(Map *map, int x, int y){
+    vector<string> localMap = {"Local Map:"};
+    for (int Y = y - 1; Y <= y + 1; Y++) {
+        string line = "|";
+        for (int X = x - 1; X <= x + 1; X++) {
+            if (map->validRoom(X, Y)) {
+                std::string roomString = map->getRoom(X, Y)->getString();
+                //replace "XXX" with " X "
+                unordered_map<string, string> replaceMap = {
+                    {"XXX", " X "},
+                    // {"<O>", " C "},
+                    {"   ", " . "},
+                    {"~", "."}
+                };
+                for (const auto &pair : replaceMap) {
+                    size_t pos = 0;
+                    while ((pos = roomString.find(pair.first, pos)) != std::string::npos) {
+                        roomString.replace(pos, pair.first.length(), pair.second);
+                        pos += pair.second.length();
+                    }
+                }
+                //replace all " "'s with ""
+                roomString.erase(std::remove(
+                    roomString.begin(), roomString.end(), ' '),
+                    roomString.end());
+                line += roomString;
+            }
+        }
+        localMap.push_back(line + "|");
+    }
+    return localMap;
 }
 
 void View::printMap(Map *map) {

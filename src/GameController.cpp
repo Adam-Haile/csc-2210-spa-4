@@ -47,7 +47,8 @@ char GameController::startTurn() {
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
 
-    view->printState(directions, inventory);
+    view->printState(directions, inventory,
+        view->generateLocalMap(map, player->x, player->y));
     char action = view->getInput(menuOptions);
     return action;
 }
