@@ -26,8 +26,11 @@ void GameController::startGame() {
             vector<string> messages = performAction(action);
             gameState = getGameState(action);
             if(gameState == RUNNING && !interactions.empty()) {
-                view->printMessages(messages);
                 view->printMessages(interactions);
+                interactions.clear();
+            }
+            if(gameState == RUNNING && !messages.empty()) {
+                view->printMessages(messages);
             }
         }
         endRound(gameState);
@@ -47,7 +50,6 @@ char GameController::startTurn() {
 }
 
 vector<string> GameController::performAction(char action) {
-    interactions.clear();
     switch (action) {
         case 'H': view->printLine(help_message); break;
         case 'M': view->printMap(map); break;
