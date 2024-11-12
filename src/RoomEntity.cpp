@@ -9,7 +9,7 @@
 using namespace std;
 
 Blank::Blank(Room *room){
-    icon = "   ";
+    icon = "\33[0m   \33[0m";
     nonTraversableIcon = "\33[0mXXX\33[0m";
     message = "";
     this->room = room;
@@ -35,7 +35,7 @@ ProfessorOffice::ProfessorOffice() {
 }
 
 Portal::Portal() {
-    icon = "\33[38:5:14m ~ \33[0m";
+    icon = "\33[38:5:13m ~ \33[0m";
     message = "This doorway leads somewhere weird.";
 }
 
@@ -49,7 +49,7 @@ Camera::Camera() {
 }
 
 CameraZone::CameraZone() {
-    icon = "\33[38:5:124m ! \33[0m";
+    icon = "\33[38:5:124m\33[5m ! \33[0m";
     message = "The camera can almost see you"; // Other msg was misleading, this was kinda sucks
     enter_message = "You equipped a mask and are anonymous on the cameras.";
     sneaking_message = "You are sneaking through the cameras.";
