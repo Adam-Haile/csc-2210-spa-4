@@ -111,30 +111,38 @@ vector<string> View::generateLocalMap(Map *map, int x, int y){
         for (int X = x - 1; X <= x + 1; X++) {
             if (map->validRoom(X, Y)) {
                 std::string roomString = map->getRoom(X, Y)->getString();
-                //replace "XXX" with " X "
-                unordered_map<string, string> replaceMap = {
-                    {"XXX", " X "},
-                    // {"<O>", " C "},
-                    {"   ", " . "},
-                    {"~", "."}
-                };
-                for (const auto &pair : replaceMap) {
-                    size_t pos = 0;
-                    while ((pos = roomString.find(pair.first, pos)) != std::string::npos) {
-                        roomString.replace(pos, pair.first.length(), pair.second);
-                        pos += pair.second.length();
-                    }
-                }
-                //replace all " "'s with ""
-                roomString.erase(std::remove(
-                    roomString.begin(), roomString.end(), ' '),
-                    roomString.end());
+                roomString = maskString(roomString);
                 line += roomString;
+            } else {
+                line += "X";
             }
         }
         localMap.push_back(line + "|");
     }
     return localMap;
+}
+
+string View::maskString(string roomString) {
+    //replace "XXX" with " X "
+    unordered_map<string, string> replaceMap = {
+        {"XXX", " X "},
+        {"<O>", " C "},
+        {" ~ ", "\33[0m . "},
+        {"   ", " . "},
+    };
+    for (const auto &pair : replaceMap) {
+        size_t pos = 0;
+        while ((pos = roomString.find(pair.first, pos)) != std::string::npos) {
+            roomString.replace(pos, pair.first.length(), pair.second);
+            pos += pair.second.length();
+        }
+    }
+    //replace all " "'s with ""
+    roomString.erase(std::remove(
+        roomString.begin(), roomString.end(), ' '),
+        roomString.end());
+
+    return roomString;
 }
 
 void View::printMap(Map *map) {

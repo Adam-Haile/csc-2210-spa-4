@@ -27,6 +27,7 @@ public:
     void printLine(const std::string& line, bool endline = true);
 private:
     std::vector<std::string> lines;
+    string maskString(string roomString);
 };
 
 #endif // VIEW_H
