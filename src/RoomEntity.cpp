@@ -10,7 +10,7 @@ using namespace std;
 
 Blank::Blank(Room *room){
     icon = "   ";
-    nonTraversableIcon = "XXX";
+    nonTraversableIcon = "\33[0mXXX\33[0m";
     message = "";
     this->room = room;
 }
@@ -20,22 +20,22 @@ string Blank::getIcon() {
 }
 
 Mask::Mask() {
-    icon = " > ";
+    icon = "\33[96m > \33[0m";
     message = "There's a box of disposable masks nearby.";
 }
 
 Homework::Homework() {
-    icon = " H ";
+    icon = "\33[38:5:178m H \33[0m";
     message = "You sense your homework nearby.";
 }
 
 ProfessorOffice::ProfessorOffice() {
-    icon = " # ";
+    icon = "\33[38:5:166m # \33[0m";
     message = "You feel an ominous presence.";
 }
 
 Portal::Portal() {
-    icon = " ~ ";
+    icon = "\33[38:5:14m ~ \33[0m";
     message = "This doorway leads somewhere weird.";
 }
 
@@ -44,12 +44,12 @@ void Portal::setMap(Map *map) {
 }
 
 Camera::Camera() {
-    icon = "<O>";
+    icon = "\33[38:5:9m<O>\33[0m";
     message = "There's a camera in the corner.";
 }
 
 CameraZone::CameraZone() {
-    icon = " ! ";
+    icon = "\33[38:5:124m ! \33[0m";
     message = "The camera can almost see you"; // Other msg was misleading, this was kinda sucks
     enter_message = "You equipped a mask and are anonymous on the cameras.";
     sneaking_message = "You are sneaking through the cameras.";
