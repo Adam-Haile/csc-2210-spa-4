@@ -17,23 +17,24 @@ public:
     explicit GameController(View* view); //needs the map keys
     ~GameController();
     void startGame();
-    char startTurn();
-    vector<string> performAction(char action);
-    void useItem(char direction, RoomEntity* item);
-
-    void endRound(int gameState);
-    void endGame(int gameState);
-    void resetGame();
-    std::vector<std::string> movePlayer(int difX, int difY);
 
 private:
     Map* map;
     Player* player;
     View* view;
     std::string help_message = "helpity help";
-    enum state {QUIT, RUNNING, WON, LOST};
-    state getGameState(char action);
     std::vector<std::string> interactions;
+    enum state {QUIT, RUNNING, WON, LOST};
+
+    char startTurn();
+    vector<string> performAction(char action);
+    void useItem(char direction, RoomEntity* item);
+    std::vector<std::string> movePlayer(int difX, int difY);
+
+    state getGameState(char action);
+    void endRound(state gameState);
+    void resetGame();
+    void endGame(state gameState);
 };
 
 #endif // GAMECONTROLLER_H

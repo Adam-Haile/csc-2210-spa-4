@@ -34,6 +34,9 @@ void GameController::startGame() {
             }
         }
         endRound(gameState);
+        view->printLine("Do you want to try again for an even better grade? [Y/n]: ");
+        repeat = view->getInput(vector<char>{"Y","N"}) == 'Y';
+        if(repeat) resetGame();
     }
     endGame(gameState);
 }
@@ -97,15 +100,19 @@ GameController::state GameController::getGameState(char action) {
     return gamestate;
 }
 
-void GameController::endRound(int gameState) {
-
-}
-
-void GameController::endGame(int gameState) {
-    if (gameState == 0) {
-        view->printLine("Game Over");
+void GameController::endRound(state gameState) {
+    switch (gameState) {
+        case QUIT: view->printLine("You have given up, good luck next time!"); break;
+        case LOST: view->printLine("You have failed your course"); break;
+        case WON: view->printLine("You have succeeded at your heist"); break;
     }
 }
 
+void GameController::endGame(state gameState) {
+    view->printLine("Do your homework next time!");
+}
+
 void GameController::resetGame() {
+    map = new Map(player->x, player->y);
+    interactions.clear();
 }
