@@ -62,9 +62,9 @@ vector<string> GameController::performAction(char action) {
             char dir = view->getInput(valid_directions);
             useItem(dir, Homework::getInstance());
         }
-        case 'N': interactions = movePlayer(0,1); break;
+        case 'N': interactions = movePlayer(0,-1); break;
         case 'E': interactions = movePlayer(1,0); break;
-        case 'S': interactions = movePlayer(0,-1); break;
+        case 'S': interactions = movePlayer(0,1); break;
         case 'W': interactions = movePlayer(-1,0); break;
         default: break;
     }
@@ -82,9 +82,9 @@ void GameController::useItem(char direction, RoomEntity* item) {
     int x = player->x;
     int y = player->y;
     switch(direction){
-        case 'N': map->getRoom(x, y+1)->interactAll(item); break;
+        case 'N': map->getRoom(x, y-1)->interactAll(item); break;
         case 'E': map->getRoom(x+1, y)->interactAll(item); break;
-        case 'S': map->getRoom(x, y-1)->interactAll(item); break;
+        case 'S': map->getRoom(x, y+1)->interactAll(item); break;
         case 'W': map->getRoom(x-1, y)->interactAll(item); break;
     }
 }

@@ -65,11 +65,10 @@ Room* Map::getRoom(int x, int y) {
 
 void Map::setToRoom(int x, int y, RoomEntity *entity) {
     if (validRoom(x, y)) {
-        rooms[y][x].addEntity(entity);
+        getRoom(x,y)->addEntity(entity);
     }
 }
 
-//TODO fix this or rename, only works for player
 void Map::moveToRoom(int x, int y, RoomEntity *entity) {
     if (validRoom(x, y)) {
         if (entity == Player::getInstance()) {
@@ -85,7 +84,7 @@ void Map::moveToRoom(int x, int y, RoomEntity *entity) {
 
 void Map::removeFromRoom(int x, int y, RoomEntity *entity) {
     if (validRoom(x, y)) {
-        rooms[y][x].removeEntity(entity);
+        getRoom(x,y)->removeEntity(entity);
     }
 }
 
@@ -97,8 +96,8 @@ vector<char> Map::getValidDirections(Player *player) {
     vector<char> validDirections;
     int x = player->x;
     int y = player->y;
-    if (validRoom(x,y+1) && getRoom(x, y+1)->isTraversable()) validDirections.push_back('N');
-    if (validRoom(x,y-1) && getRoom(x, y-1)->isTraversable()) validDirections.push_back('S');
+    if (validRoom(x,y-1) && getRoom(x, y-1)->isTraversable()) validDirections.push_back('N');
+    if (validRoom(x,y+1) && getRoom(x, y+1)->isTraversable()) validDirections.push_back('S');
     if (validRoom(x+1,y) && getRoom(x+1, y)->isTraversable()) validDirections.push_back('E');
     if (validRoom(x-1,y) && getRoom(x-1, y)->isTraversable()) validDirections.push_back('W');
     return validDirections;
