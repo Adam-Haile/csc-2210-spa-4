@@ -62,7 +62,7 @@ void View::printState(const std::vector<char> &directions,
     std::cout << "Actions: ";
     printValidDirections(directions);
     std::cout << ", ";
-    std::cout << "H(elp), M(ap), Q(uit), U(se item)" << std::endl;
+    std::cout << "\33[38:5:178mH\33[0m(elp), \33[38:5:12mM\33[0m(ap), \33[38:5:196mQ\33[0m(uit), \33[38:5:202mU\33[0m(se item)" << std::endl;
     std::cout << "Inventory:" << "    " << localMap[0];
     std::cout << "  " << localMap[1] << std::endl;
     std::cout << inventory[0] << "   " << "            ";
@@ -78,10 +78,10 @@ void View::printState(const std::vector<char> &directions,
  */
 void View::printValidDirections(const std::vector<char> &directions) {
     std::unordered_map<char, std::string> directionMap = {
-        {'N', "N(orth)"},
-        {'S', "S(outh)"},
-        {'E', "E(ast)"},
-        {'W', "W(est)"}
+        {'N', "\33[38:5:10mN\33[0m(orth)"},
+        {'S', "\33[38:5:10mS\33[0m(outh)"},
+        {'E', "\33[38:5:10mE\33[0m(ast)"},
+        {'W', "\33[38:5:10mW\33[0m(est)"}
     };
     std::vector<std::string> validDirections;
     for (const char &direction : directions) {
@@ -100,7 +100,7 @@ void View::printMessages(const std::vector<std::string> &msg) {
     // Should randomize
     // std::shuffle(msg.begin(), msg.end(), std::random_device()());
     for (const std::string &message : msg) {
-        std::cout << message << std::endl;
+        std::cout << "\33[3m" << message << "\33[0m" << std::endl;
     }
 }
 

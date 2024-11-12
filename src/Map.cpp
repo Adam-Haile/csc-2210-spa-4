@@ -9,8 +9,8 @@
 #include "Player.h"
 
 using namespace std;
-
-const static int GLOBAL_SEED = 12345;
+random_device rd;
+const static int GLOBAL_SEED = rd();
 
 std::mt19937 gen(GLOBAL_SEED);
 
