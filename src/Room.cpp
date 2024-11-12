@@ -44,6 +44,10 @@ bool Room::contains(RoomEntity *entity) {
   return iterator != entities.end();
 }
 
+bool Room::isEmpty() const {
+  return entities.size() == 1;
+}
+
 void Room::addEntity(RoomEntity *entity) {
   //add entity to front
   entities.insert(entities.begin(), entity);
@@ -58,7 +62,7 @@ bool Room::isTraversable() const {
 }
 
 bool Room::canTeleport() const {
-  return traversable && entities.size() == 1;
+  return traversable && this->isEmpty();
 }
 
 std::string Room::getString() {

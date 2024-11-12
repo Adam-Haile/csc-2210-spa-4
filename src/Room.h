@@ -20,6 +20,7 @@ public:
     bool contains(RoomEntity *entity);
     bool isTraversable() const;
     bool canTeleport() const;
+    bool isEmpty() const;
     std::string getString();
     std::vector<RoomEntity *> *getEntities();
 private:

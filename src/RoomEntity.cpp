@@ -104,9 +104,9 @@ string Portal::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
         int x;
         int y;
-        Room * room = map->getRandomRoom(true, x, y);
+        Room * room = map->getRandomRoom(true, true, x, y);
         while(!room->canTeleport()) {
-            room = map->getRandomRoom(true, x, y);
+            room = map->getRandomRoom(true, true, x, y);
         }
         map->moveToRoom(x, y, Player::getInstance());
     }

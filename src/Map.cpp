@@ -29,7 +29,7 @@ Map::Map(int playerX, int playerY) {
 
     int x, y;
     if (playerX < 0 && playerY < 0) {
-        getRandomRoom(true, x, y)->addEntity(Player::getInstance());
+        getRandomRoom(true, true, x, y)->addEntity(Player::getInstance());
         Player::getInstance()->x = x;
         Player::getInstance()->y = y;
     } else if (validRoom(playerX, playerY)) {
@@ -50,7 +50,7 @@ Map::Map(int playerX, int playerY) {
     getRandomRoom(true)->addEntity(Homework::getInstance());
     getRandomRoom(true)->addEntity(Homework::getInstance());
     getRandomRoom(true)->addEntity(ProfessorOffice::getInstance());
-    getRandomRoom(false, x, y)->addEntity(Portal::getInstance());
+    getRandomRoom(false, true, x, y)->addEntity(Portal::getInstance());
     getRoom(x, y)->setTraversable(true);
 }
 
@@ -71,24 +71,28 @@ bool Map::cameraContainsEntity(RoomEntity * entity, int x, int y) {
 
 void Map::spawnRandomCamera() {
     int x, y;
-    this->getRandomRoom(false, x, y);
+    this->getRandomRoom(false, true, x, y);
     while(this->cameraContainsEntity(Player::getInstance(), x, y) ||
             this->cameraContainsEntity(ProfessorOffice::getInstance(), x, y) ||
             this->cameraContainsEntity(Mask::getInstance(), x, y)) {
-        this->getRandomRoom(false, x, y);
+        this->getRandomRoom(false, true, x, y);
     }
 
     addCamera(x, y);
 }
 
-
-
 Room* Map::getRandomRoom(bool isTraverseable) {
     int x, y;
-    return getRandomRoom(isTraverseable, x, y);
+    return getRandomRoom(isTraverseable, false, x, y);
 }
 
-Room* Map::getRandomRoom(bool isTraverseable, int &x, int &y) {
+
+Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty) {
+    int x, y;
+    return getRandomRoom(isTraverseable, isEmpty, x, y);
+}
+
+Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty, int &x, int &y) {
     // Initialize random number generator with a seed from the random_device
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -100,7 +104,7 @@ Room* Map::getRandomRoom(bool isTraverseable, int &x, int &y) {
         std::uniform_int_distribution<int> distY(0, 9);
         y = distY(gen);
 
-        if (validRoom(x, y) && getRoom(x, y)->isTraversable() == isTraverseable) {
+        if (validRoom(x, y) && getRoom(x, y)->isEmpty() && getRoom(x, y)->isTraversable() == isTraverseable) {
             return getRoom(x, y);
         }
     }
