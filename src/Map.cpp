@@ -59,17 +59,15 @@ Map::Map(int playerX, int playerY) {
 }
 
 bool Map::cameraContainsEntity(RoomEntity * entity, int x, int y) {
+    bool contains = false;
     for (int dx = -1; dx <= 1; ++dx) {
         for (int dy = -1; dy <= 1; ++dy) {
             if (dx == 0 && dy == 0) continue;
-            if (validRoom(x + dx, y + dy)) {
-                if(!getRoom(x + dx, y + dy)->contains(entity)) {
-                    return false;
-                }
-            }
+            contains = contains ||
+                validRoom(x + dx, y + dy) && getRoom(x + dx, y + dy)->contains(entity);
         }
     }
-    return true;
+    return contains;
 }
 
 
@@ -95,8 +93,6 @@ Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty) {
     int x, y;
     return getRandomRoom(isTraverseable, isEmpty, x, y);
 }
-
-#include <random>
 
 Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty, int &x, int &y) {
     // Use the global random number generator

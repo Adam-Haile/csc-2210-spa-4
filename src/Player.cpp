@@ -14,8 +14,8 @@ Player::Player() {
 //TODO
 vector<string> Player::getInventory() {
     return {
-        "Homework: " + to_string(homework),
-        "Masks: " + to_string(masks)
+        "Homework: \33[3m\33[38:5:28m" + to_string(homework) + "\33[0m",
+        "Masks: \33[3m\33[38:5:28m" + to_string(masks) + "\33[0m"
     };
 }
 
