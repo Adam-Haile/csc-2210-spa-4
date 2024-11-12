@@ -133,11 +133,15 @@ public:
     string getIcon() override {return icon; };
     string interact(RoomEntity* entity) override;
     string getMessage() const override;
+    string getLeftMessage() const;
 private:
     string icon;
     // string message;
+    string enter_message;
+    string sneaking_message;
+    string caught_message;
+    string left_message;
     Camera cam;
-    bool watching;
 };
 
 #endif // ROOMENTITY_H
