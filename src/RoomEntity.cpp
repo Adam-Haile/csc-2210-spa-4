@@ -2,20 +2,11 @@
 // Created by milleraa on 10/29/2024.
 //
 #include <stdexcept>
-#include <random>
 #include "RoomEntity.h"
 #include <map>
 #include "Player.h"
 
 using namespace std;
-
-int getRandomInt(int min, int max) {
-    // Initialize random number generator with a seed from the random_device
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(min, max);
-    return dist(gen);
-}
 
 Blank::Blank(Room *room){
     icon = "   ";
@@ -60,6 +51,10 @@ Camera::Camera() {
 CameraZone::CameraZone() {
     icon = " ! ";
     message = "The camera can almost see you"; // Other msg was misleading, this was kinda sucks
+    enter_message = "You equipped a mask and are anonymous on the cameras.";
+    sneaking_message = "You are sneaking through the cameras.";
+    caught_message = "You got caught by the cameras!";
+    left_message = "You've left the sight of the cameras. They'll remember you next time...";
 }
 
 string Blank::interact(RoomEntity *entity) {
@@ -107,16 +102,16 @@ string ProfessorOffice::interact(RoomEntity *entity) {
 //TODO avoid magic numbers
 string Portal::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
-        int i = getRandomInt(0, 10);
-        int j = getRandomInt(0, 8);
-        while(!map->getRoom(i,j)->canTeleport()) {
-            i = getRandomInt(0, 10);
-            j = getRandomInt(0, 8);
+        int x;
+        int y;
+        Room * room = map->getRandomRoom(true, x, y);
+        while(!room->canTeleport()) {
+            room = map->getRandomRoom(true, x, y);
         }
-        map->moveToRoom(i, j, entity);
+        map->moveToRoom(x, y, Player::getInstance());
     }
 
-    return "";
+    return "You have encountered weird architecture.";
 }
 
 string Camera::interact(RoomEntity *entity) {
@@ -127,31 +122,29 @@ string CameraZone::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
         Player *player = Player::getInstance();
 
-        if(player->masks > 0 && this->watching == false) {
-            this->watching = true;
+        if(player->masks > 0 && !player->watched) {
+            player->watched = true;
             player->masks--;
-            return "You equipped a mask and are anonymous on the cameras.";
+            return enter_message;
         }
 
-        if (this->watching == true) {
-            return "You are sneaking through the cameras.";
+        if (player->watched) {
+            return sneaking_message;
         }
 
         if (player->masks == 0) {
             player->alive = false;
-            return "You got caught by the cameras!";
+            return caught_message;
         }
-
-        //TODO
-        // if (something) {
-        //     this->watching = false;
-        //     return "You've left the sight of the cameras. They'll remember you next time...";
-        // }
     }
 
     return "";
 }
 
 string CameraZone::getMessage() const {
-    return this->watching ? "" : this->message;
+    return Player::getInstance()->watched ? "" : this->message;
+}
+
+string CameraZone::getLeftMessage() const {
+    return this->left_message;
 }

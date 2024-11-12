@@ -21,6 +21,7 @@ public:
     int masks = 0;
     bool alive = true;
     bool won = false;
+    bool watched = false;
     vector<std::string> getInventory();
     vector<std::string> search(Map* map);
     string interact(RoomEntity* entity) override;

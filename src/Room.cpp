@@ -39,6 +39,10 @@ void Room::removeEntity(RoomEntity *entity) {
     entities.erase(iterator);
   }
 }
+bool Room::contains(RoomEntity *entity) {
+  const auto iterator = std::find(entities.begin(), entities.end(), entity);
+  return iterator != entities.end();
+}
 
 void Room::addEntity(RoomEntity *entity) {
   //add entity to front

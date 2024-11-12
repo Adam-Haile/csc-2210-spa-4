@@ -14,9 +14,10 @@ public:
     Room();
     vector<string> interactAll(RoomEntity *entity);
     vector<string> getAllMessages();
+    void setTraversable(bool traversable);
     void removeEntity(RoomEntity *entity);
     void addEntity(RoomEntity *entity);
-    void setTraversable(bool traversable);
+    bool contains(RoomEntity *entity);
     bool isTraversable() const;
     bool canTeleport() const;
     std::string getString();

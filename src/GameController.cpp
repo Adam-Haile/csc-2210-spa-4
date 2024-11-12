@@ -78,7 +78,19 @@ vector<string> GameController::movePlayer(int difX, int difY) {
     int newX = player->x + difX;
     int newY = player->y + difY;
     map->moveToRoom(newX, newY, player);
-    return map->getRoom(newX, newY)->interactAll(player);
+    Room *room = map->getRoom(newX, newY);
+    vector<string> messages = room->interactAll(player);
+    if (player->watched && !room->contains(CameraZone::getInstance())) {
+        player->watched = false;
+        messages.push_back(CameraZone::getInstance()->getLeftMessage());
+    }
+    if (room->contains(Mask::getInstance())) {
+        room->removeEntity(Mask::getInstance());
+    }
+    if (room->contains(Homework::getInstance())) {
+        room->removeEntity(Homework::getInstance());
+    }
+    return messages;
 }
 
 void GameController::useItem(char direction, RoomEntity* item) {
