@@ -44,6 +44,8 @@ Map::Map(int playerX, int playerY) {
         cerr << "Player spawn is an invalid room";
     }
 
+    // For spawning cameras, is there a need to check if prof office and mask?
+    // We only add player first, then we add the other elements.
     spawnRandomCamera();
     spawnRandomCamera();
 
@@ -85,7 +87,7 @@ void Map::spawnRandomCamera() {
 
 Room* Map::getRandomRoom(bool isTraverseable) {
     int x, y;
-    return getRandomRoom(isTraverseable, false, x, y);
+    return getRandomRoom(isTraverseable, true, x, y);
 }
 
 
@@ -103,7 +105,7 @@ Room* Map::getRandomRoom(bool isTraverseable, bool isEmpty, int &x, int &y) {
         x = distX(gen);
         y = distY(gen);
 
-        if (validRoom(x, y) && getRoom(x, y)->isEmpty() && getRoom(x, y)->isTraversable() == isTraverseable) {
+        if (validRoom(x, y) && getRoom(x, y)->isEmpty() == isEmpty && getRoom(x, y)->isTraversable() == isTraverseable) {
             return getRoom(x, y);
         }
     }
