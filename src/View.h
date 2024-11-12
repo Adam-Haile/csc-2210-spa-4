@@ -16,9 +16,13 @@ public:
     ~View();
     char getInput(const std::vector<char>& validChars);
     void printState(const std::vector<char>& directions,
-        const std::vector<std::string>& inventory);
+        const std::vector<std::string>& inventory,
+        std::vector<string> localMap = {"", "", "", ""});
     static void printValidDirections(const std::vector<char>& directions);
     void printMessages(const std::vector<std::string>& msg);
+
+    vector<string> generateLocalMap(Map *map, int x, int y);
+
     void printMap(Map* map);
     void printLine(const std::string& line, bool endline = true);
 private:
