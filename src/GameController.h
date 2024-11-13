@@ -19,6 +19,11 @@ public:
     void startGame();
 
 private:
+    enum State {QUIT, RUNNING, WON, LOST};
+    enum Mode {DEFAULT, DEBUG, MINIMAP};
+    bool color;
+    Mode mode;
+    std::vector<std::string> interactions;
     Map* map;
     Player* player;
     View* view;
@@ -36,18 +41,17 @@ Items
 -	COVID Masks: Protect your identity and sneak past a camera! Keep in mind, they won’t fall for the same mask again, so you’ll have to find a new one once you get past.
 -	Late Homework: Your papers got scattered all over the building! Collect them all and get them to the professor to win!
 )";
-    std::vector<std::string> interactions;
-    enum state {QUIT, RUNNING, WON, LOST};
 
     char startTurn();
+    Mode setMode();
     vector<string> performAction(char action);
     void useItem(char direction, RoomEntity* item);
     std::vector<std::string> movePlayer(int difX, int difY);
 
-    state getGameState(char action);
-    void endRound(state gameState);
+    State getGameState(char action);
+    void endRound(State gameState);
     void resetGame();
-    void endGame(state gameState);
+    void endGame(State gameState);
 };
 
 #endif // GAMECONTROLLER_H

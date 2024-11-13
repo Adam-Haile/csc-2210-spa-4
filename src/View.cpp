@@ -104,14 +104,14 @@ void View::printMessages(const std::vector<std::string> &msg) {
     }
 }
 
-vector<string> View::generateLocalMap(Map *map, int x, int y){
+vector<string> View::generateLocalMap(Map *map, int x, int y, bool debug) {
     vector<string> localMap = {"Local Map:"};
     for (int Y = y - 1; Y <= y + 1; Y++) {
         string line = "|";
         for (int X = x - 1; X <= x + 1; X++) {
             if (map->validRoom(X, Y)) {
                 std::string roomString = map->getRoom(X, Y)->getString();
-                roomString = maskString(roomString);
+                roomString = maskString(roomString, debug);
                 line += roomString;
             } else {
                 line += "X";
@@ -122,15 +122,24 @@ vector<string> View::generateLocalMap(Map *map, int x, int y){
     return localMap;
 }
 
-string View::maskString(string roomString) {
+string View::maskString(string roomString, bool debug) {
     //replace "XXX" with " X "
+    unordered_map<string, string> debugMap = {
+        {"XXX", " X "},
+        {"<O>", " C "},
+        {"   ", " . "},
+    };
     unordered_map<string, string> replaceMap = {
         {"XXX", " X "},
         {"<O>", " C "},
         {" ~ ", "\33[0m . "},
-        {"   ", " . "},
+        {" H ", "\33[0m . "},
+        {" # ", "\33[0m . "},
+        {" > ", "\33[0m . "},
+        {"   ", " . "}
     };
-    for (const auto &pair : replaceMap) {
+    const unordered_map<string, string> mapSource = debug ? debugMap : replaceMap;
+    for (const auto &pair : mapSource) {
         size_t pos = 0;
         while ((pos = roomString.find(pair.first, pos)) != std::string::npos) {
             roomString.replace(pos, pair.first.length(), pair.second);
