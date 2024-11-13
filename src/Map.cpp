@@ -37,7 +37,8 @@ Map::Map(int playerX, int playerY) {
         Player::getInstance()->x = x;
         Player::getInstance()->y = y;
     } else if (validRoom(playerX, playerY)) {
-        getRoom(playerX, playerY)->addEntity(Player::getInstance());
+        // getRoom(playerX, playerY)->addEntity(Player::getInstance());
+        moveToRoom(playerX, playerY, Player::getInstance());
         Player::getInstance()->x = playerX;
         Player::getInstance()->y = playerY;
     } else {
