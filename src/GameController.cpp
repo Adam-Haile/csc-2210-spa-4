@@ -20,17 +20,16 @@ GameController::~GameController() {
 void GameController::startGame() {
     bool repeat = true;
     State gameState = RUNNING;
+    view->printLine(help_message);
+    vector<string> messages = player->search(map);
     while (repeat) {
         while (gameState == RUNNING) {
-            char action = startTurn();
-            vector<string> messages = performAction(action);
+            char action = startTurn(messages);
+            messages = performAction(action);
             gameState = getGameState(action);
-            if(gameState == RUNNING && !interactions.empty()) {
+            if(!interactions.empty()) {
                 view->printMessages(interactions);
                 interactions.clear();
-            }
-            if(gameState == RUNNING && !messages.empty()) {
-                view->printMessages(messages);
             }
         }
         endRound(gameState);
@@ -41,17 +40,17 @@ void GameController::startGame() {
     endGame(gameState);
 }
 
-char GameController::startTurn() {
+char GameController::startTurn(vector<string> messages) {
     vector<char> menuOptions = vector<char>{'H', 'M', 'Q', 'U', '*'};
     vector<char> directions = map->getValidDirections(player);
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
     if(mode == DEFAULT) {
-        view->printState(directions,inventory);
+        view->printState(directions,messages, inventory);
     } else {
         vector<string> localMap = view->generateLocalMap(
             map, player->x, player->y, mode==DEBUG);
-        view->printState(directions, inventory, localMap);
+        view->printState(directions, messages, inventory, localMap);
         // view->printMessages(localMap);
     }
     char action = view->getInput(menuOptions);

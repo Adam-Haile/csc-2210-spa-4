@@ -42,7 +42,7 @@ Items
 -	Late Homework: Your papers got scattered all over the building! Collect them all and get them to the professor to win!
 )";
 
-    char startTurn();
+    char startTurn(vector<string> messages);
     vector<string> performAction(char action);
     void useItem(char direction, RoomEntity* item);
     std::vector<std::string> movePlayer(int difX, int difY);
