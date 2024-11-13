@@ -16,5 +16,11 @@ To build and compile yourself:
 
 You should now have your own standalone executable available in [cmake-build-release]("./cmake-build-debug/csc_2210_spa_4.exe")
 
+> Debug mode can be accessed via the settings (*) menu.
+
 ## CMAKE Version
 Compiled with CMAKE 3.31
+
+## Deviations from Original Design
+1. Some additional unanticipated helper methods were added (mostly in Map).
+2. Additional attributes in Player to allow for cameras to operate correctly.
