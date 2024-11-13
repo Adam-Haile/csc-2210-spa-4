@@ -43,12 +43,13 @@ Items
 )";
 
     char startTurn();
-    Mode setMode();
     vector<string> performAction(char action);
     void useItem(char direction, RoomEntity* item);
     std::vector<std::string> movePlayer(int difX, int difY);
 
     State getGameState(char action);
+    void setSettings();
+
     void endRound(State gameState);
     void resetGame();
     void endGame(State gameState);
