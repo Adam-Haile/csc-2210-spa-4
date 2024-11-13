@@ -21,8 +21,8 @@ void GameController::startGame() {
     bool repeat = true;
     State gameState = RUNNING;
     view->printLine(help_message);
-    vector<string> messages = player->search(map);
     while (repeat) {
+        vector<string> messages = player->search(map);
         while (gameState == RUNNING) {
             char action = startTurn(messages);
             messages = performAction(action);
