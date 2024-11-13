@@ -73,6 +73,7 @@ vector<string> GameController::performAction(char action) {
             view->printLine("", true);
             char dir = view->getInput(valid_directions);
             useItem(dir, Homework::getInstance());
+            break;
         }
         case 'N': interactions = movePlayer(0,-1); break;
         case 'E': interactions = movePlayer(1,0); break;
