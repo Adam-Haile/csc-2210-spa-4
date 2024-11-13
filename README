@@ -2,6 +2,9 @@
 ## Hunt the Wumpus - The Homework Heist Remix
 Adam Haile, Aiden Miller, Payton Dorger
 
+## UML
+![UML](./UML.png)
+
 ## Build Instructions
 The application can be standalone ran via the [csc_2210_spa_4.exe]("./csc_2210_spa_4.exe").
 
@@ -15,6 +18,3 @@ You should now have your own standalone executable available in [cmake-build-rel
 
 ## CMAKE Version
 Compiled with CMAKE 3.31
-
-## UML
-[!UML](./UML.png)
