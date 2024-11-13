@@ -25,12 +25,9 @@ void GameController::startGame() {
         vector<string> messages = player->search(map);
         while (gameState == RUNNING) {
             char action = startTurn(messages);
+            interactions.clear();
             messages = performAction(action);
             gameState = getGameState(action);
-            if(!interactions.empty()) {
-                view->printMessages(interactions);
-                interactions.clear();
-            }
         }
         endRound(gameState);
         view->printLine("Do you want to try again for an even better grade? [Y/n]: ");
@@ -49,11 +46,11 @@ char GameController::startTurn(vector<string> messages) {
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
     if(mode == DEFAULT) {
-        view->printState(directions, messages, inventory);
+        view->printState(directions, messages, interactions, inventory);
     } else {
         vector<string> localMap = view->generateLocalMap(
             map, player->x, player->y, mode==DEBUG);
-        view->printState(directions, messages, inventory, localMap);
+        view->printState(directions, messages, interactions, inventory, localMap);
         // view->printMessages(localMap);
     }
     char action = view->getInput(menuOptions);
@@ -143,15 +140,19 @@ void GameController::setSettings() {
 }
 
 void GameController::endRound(State gameState) {
+    string quit_message = "You have given up, good luck next time!";
+    string lost_message = "You have failed your course";
+    string won_message = "You have succeeded at your heist";
     switch (gameState) {
-        case QUIT: view->printLine("You have given up, good luck next time!"); break;
-        case LOST: view->printLine("You have failed your course"); break;
-        case WON: view->printLine("You have succeeded at your heist"); break;
+        case QUIT: view->printLine(quit_message); break;
+        case LOST: view->printLine(lost_message); break;
+        case WON: view->printLine(won_message); break;
     }
 }
 
 void GameController::endGame(State gameState) {
-    view->printLine("Do your homework next time!");
+    string endgame_str = "Do your homework next time!";
+    view->printLine(endgame_str);
 }
 
 void GameController::resetGame() {

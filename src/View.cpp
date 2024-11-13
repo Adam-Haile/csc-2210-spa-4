@@ -62,6 +62,7 @@ char View::getInput(const std::vector<char> &validChars) {
 
 void View::printState(const std::vector<char> &directions,
         const std::vector<std::string> &messages,
+        const std::vector<std::string> &interactions,
         const std::vector<std::string> &inventory,
         const std::vector<string> &localMap) {
     //print directions like N(orth), S(outh), E(ast), W(est)
@@ -75,8 +76,9 @@ void View::printState(const std::vector<char> &directions,
     std::cout << "\33[38:5:110m*\33[0m(settings)" << std::endl;
     //print 64 "-"'s
     std::cout << dashes << std::endl;
+    printMessages(interactions);
     printMessages(messages);
-    if(!messages.empty()) std::cout << dashes << std::endl;
+    if(!messages.empty() && !interactions.empty()) std::cout << dashes << std::endl;
     std::cout << "Inventory:" << "    " << localMap[0];
     std::cout << "  " << localMap[1] << std::endl;
     std::cout << inventory[0] << "   " << "            ";

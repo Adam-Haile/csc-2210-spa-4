@@ -17,6 +17,7 @@ public:
     char getInput(const std::vector<char>& validChars);
     void printState(const std::vector<char>& directions,
         const std::vector<std::string>& messages,
+        const std::vector<std::string>& interactions,
         const std::vector<std::string>& inventory,
         const std::vector<string>& localMap = {"", "", "", ""});
     static void printValidDirections(const std::vector<char>& directions);
