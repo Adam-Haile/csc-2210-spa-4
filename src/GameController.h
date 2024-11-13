@@ -48,6 +48,9 @@ Items
     std::vector<std::string> movePlayer(int difX, int difY);
 
     State getGameState(char action);
+
+    Mode setMode();
+
     void setSettings();
 
     void endRound(State gameState);
