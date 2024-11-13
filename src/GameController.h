@@ -27,7 +27,7 @@ private:
     Map* map;
     Player* player;
     View* view;
-    std::string help_message = R"(Welcome to the MSOE Science Building! Your goal is to navigate this maze-like building, avoiding hazards, gather helpful items, and sneak your late homework into your professor's office with them catching you! Be cautious – hazards like camera's, the professor, and mysterious doors stand in your way.
+    std::string help_message = R"(Welcome to the MSOE Science Building! Your goal is to navigate this maze-like building, avoiding hazards, gather helpful items, and sneak your late homework into your professor's office with them catching you! Be cautious - hazards like camera's, the professor, and mysterious doors stand in your way.
 Actions
 -	Move around to the North (N), East (E), South (S), and West (W) so long as there isn't a wall!
 -	Pass (P) your homework under your professor's door from any side of the room with any direction!
