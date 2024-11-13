@@ -49,7 +49,7 @@ char GameController::startTurn(vector<string> messages) {
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
     if(mode == DEFAULT) {
-        view->printState(directions,messages, inventory);
+        view->printState(directions, messages, inventory);
     } else {
         vector<string> localMap = view->generateLocalMap(
             map, player->x, player->y, mode==DEBUG);

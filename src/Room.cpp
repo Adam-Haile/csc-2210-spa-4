@@ -15,7 +15,7 @@ vector<string> Room::interactAll(RoomEntity *entity) {
   for (RoomEntity *i : entities) {
     string interaction = i->interact(entity);
     if (!interaction.empty()) {
-      interactions.push_back(interaction);
+      interactions.push_back("\33[38:5:220m" + interaction + "\33[0m");
     }
   }
   return interactions;
