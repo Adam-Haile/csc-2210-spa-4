@@ -35,7 +35,7 @@ void GameController::startGame() {
         }
         endRound(gameState);
         view->printLine("Do you want to try again for an even better grade? [Y/n]: ");
-        repeat = view->getInput(vector<char>{"Y","N"}) == 'Y';
+        repeat = view->getInput(vector<char>{'Y','N'}) == 'Y';
         if(repeat) resetGame();
     }
     endGame(gameState);
