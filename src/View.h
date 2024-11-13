@@ -21,13 +21,13 @@ public:
     static void printValidDirections(const std::vector<char>& directions);
     void printMessages(const std::vector<std::string>& msg);
 
-    vector<string> generateLocalMap(Map *map, int x, int y);
+    vector<string> generateLocalMap(Map *map, int x, int y, bool debug);
 
     void printMap(Map* map);
     void printLine(const std::string& line, bool endline = true);
 private:
     std::vector<std::string> lines;
-    string maskString(string roomString);
+    string maskString(string roomString, bool debug);
 };
 
 #endif // VIEW_H

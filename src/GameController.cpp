@@ -19,7 +19,7 @@ GameController::~GameController() {
 
 void GameController::startGame() {
     bool repeat = true;
-    state gameState = RUNNING;
+    State gameState = RUNNING;
     while (repeat) {
         while (gameState == RUNNING) {
             char action = startTurn();
@@ -50,9 +50,13 @@ char GameController::startTurn() {
     vector<char> directions = map->getValidDirections(player);
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
-
-    view->printState(directions, inventory,
-        view->generateLocalMap(map, player->x, player->y));
+    vector<string> localMap = view->generateLocalMap(
+        map, player->x, player->y, mode==DEBUG);
+    if(mode == DEFAULT) {
+        view->printState(directions,inventory);
+    } else {
+        view->printState(directions, inventory, localMap);
+    }
     char action = view->getInput(menuOptions);
     return action;
 }
@@ -109,15 +113,25 @@ void GameController::useItem(char direction, RoomEntity* item) {
     }
 }
 
-GameController::state GameController::getGameState(char action) {
-    state gamestate = RUNNING;
+GameController::State GameController::getGameState(char action) {
+    State gamestate = RUNNING;
     if (action == 'Q') gamestate = QUIT;
     if (!player->alive) gamestate = LOST;
     if (player->won) gamestate = WON;
     return gamestate;
 }
 
-void GameController::endRound(state gameState) {
+GameController::Mode GameController::setMode() {
+    view->printLine("Would you like have a minimap? [Y/n]: ");
+    char mode = view->getInput(vector<char>{'Y','N','D'});
+    switch(mode) {
+        case 'Y': return MINIMAP;
+        case 'D': return DEBUG;
+        default: return DEFAULT;
+    }
+}
+
+void GameController::endRound(State gameState) {
     switch (gameState) {
         case QUIT: view->printLine("You have given up, good luck next time!"); break;
         case LOST: view->printLine("You have failed your course"); break;
@@ -125,16 +139,17 @@ void GameController::endRound(state gameState) {
     }
 }
 
-void GameController::endGame(state gameState) {
+void GameController::endGame(State gameState) {
     view->printLine("Do your homework next time!");
 }
 
 void GameController::resetGame() {
+    delete map;
+    map = new Map(player->x, player->y);
     interactions.clear();
     player->alive = true;
     player->won = false;
     player->watched = false;
     player->homework = 3;
     player->masks = 0;
-    map = new Map(-1, -1);
 }
