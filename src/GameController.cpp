@@ -35,8 +35,12 @@ void GameController::startGame() {
         }
         endRound(gameState);
         view->printLine("Do you want to try again for an even better grade? [Y/n]: ");
-        repeat = view->getInput(vector<char>{"Y","N"}) == 'Y';
-        if(repeat) resetGame();
+        std::vector<char> validInputs{'Y', 'N'};
+        repeat = view->getInput(validInputs) == 'Y';
+        if (repeat) {
+            resetGame();
+            gameState = RUNNING;
+        }
     }
     endGame(gameState);
 }
@@ -126,6 +130,11 @@ void GameController::endGame(state gameState) {
 }
 
 void GameController::resetGame() {
-    map = new Map(player->x, player->y);
     interactions.clear();
+    player->alive = true;
+    player->won = false;
+    player->watched = false;
+    player->homework = 3;
+    player->masks = 0;
+    map = new Map(-1, -1);
 }
