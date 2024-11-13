@@ -44,9 +44,13 @@ char View::getInput(const std::vector<char> &validChars) {
     while (!valid) {
         std::cin >> input;
         input = std::toupper(input);
+        valid = false;
 
         for (const char &validChar : validChars) {
-            valid = valid || input == std::toupper(validChar);
+            if (input == std::toupper(validChar)) {
+                valid = true;
+                break;
+            }
         }
 
         if (!valid) {
