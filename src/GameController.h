@@ -21,8 +21,8 @@ public:
 private:
     enum State {QUIT, RUNNING, WON, LOST};
     enum Mode {DEFAULT, DEBUG, MINIMAP};
-    bool color;
-    Mode mode;
+    bool color = true;
+    Mode mode = DEFAULT;
     std::vector<std::string> interactions;
     Map* map;
     Player* player;

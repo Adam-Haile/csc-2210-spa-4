@@ -62,7 +62,9 @@ void View::printState(const std::vector<char> &directions,
     std::cout << "Actions: ";
     printValidDirections(directions);
     std::cout << ", ";
-    std::cout << "\33[38:5:178mH\33[0m(elp), \33[38:5:12mM\33[0m(ap), \33[38:5:196mQ\33[0m(uit), \33[38:5:202mU\33[0m(se item)" << std::endl;
+    std::cout << "\33[38:5:178mH\33[0m(elp), \33[38:5:12mM\33[0m(ap), ";
+    std::cout << "\33[38:5:196mQ\33[0m(uit), \33[38:5:202mU\33[0m(se item), ";
+    std::cout << "\33[38:5:202m*\33[0m(settings)" << std::endl;
     std::cout << "Inventory:" << "    " << localMap[0];
     std::cout << "  " << localMap[1] << std::endl;
     std::cout << inventory[0] << "   " << "            ";

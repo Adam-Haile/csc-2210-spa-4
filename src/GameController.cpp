@@ -19,7 +19,6 @@ GameController::~GameController() {
 
 void GameController::startGame() {
     bool repeat = true;
-    mode = setMode();
     State gameState = RUNNING;
     while (repeat) {
         while (gameState == RUNNING) {
@@ -43,16 +42,17 @@ void GameController::startGame() {
 }
 
 char GameController::startTurn() {
-    vector<char> menuOptions = vector<char>{'H', 'M', 'Q', 'U'};
+    vector<char> menuOptions = vector<char>{'H', 'M', 'Q', 'U', '*'};
     vector<char> directions = map->getValidDirections(player);
     menuOptions.insert(menuOptions.begin(), directions.begin(), directions.end());
     vector<string> inventory = player->getInventory();
-    vector<string> localMap = view->generateLocalMap(
-        map, player->x, player->y, mode==DEBUG);
     if(mode == DEFAULT) {
         view->printState(directions,inventory);
     } else {
+        vector<string> localMap = view->generateLocalMap(
+            map, player->x, player->y, mode==DEBUG);
         view->printState(directions, inventory, localMap);
+        // view->printMessages(localMap);
     }
     char action = view->getInput(menuOptions);
     return action;
@@ -70,7 +70,8 @@ vector<string> GameController::performAction(char action) {
             view->printLine("", true);
             char dir = view->getInput(valid_directions);
             useItem(dir, Homework::getInstance());
-        }
+        } break;
+        case '*': setSettings(); break;
         case 'N': interactions = movePlayer(0,-1); break;
         case 'E': interactions = movePlayer(1,0); break;
         case 'S': interactions = movePlayer(0,1); break;
@@ -118,13 +119,24 @@ GameController::State GameController::getGameState(char action) {
     return gamestate;
 }
 
-GameController::Mode GameController::setMode() {
-    view->printLine("Would you like have a minimap? [Y/n]: ");
-    char mode = view->getInput(vector<char>{'Y','N','D'});
+void GameController::setSettings() {
+    //in color
+    // view->printLine("Color: Current[" + string(color ? "On" : "Off") + "] ", false);
+    // view->printLine("Do you want color [Y/n]: ", true);
+    // color = view->getInput(vector<char>{'Y','N'}) == 'Y';
+    //default, minimap, or debug
+    view->printLine("Minimap: Current[", false);
     switch(mode) {
-        case 'Y': return MINIMAP;
-        case 'D': return DEBUG;
-        default: return DEFAULT;
+        case MINIMAP: view->printLine("On", false); break;
+        case DEBUG: view->printLine("DEBUG", false); break;
+        default: view->printLine("Off", false); break;
+    }
+    view->printLine("] Do you want a minimap [Y/n]: ", true);
+    char choice = view->getInput(vector<char>{'Y','N','D'});
+    switch(choice) {
+        case 'Y': mode = MINIMAP; break;
+        case 'D': mode = DEBUG; break;
+        default: mode = DEFAULT; break;
     }
 }
 
