@@ -58,12 +58,20 @@ CameraZone::CameraZone() {
 }
 
 string Blank::interact(RoomEntity *entity) {
+    if(entity == Mask::getInstance()) {
+        room->removeEntity(entity);
+    }
+    if(entity == Homework::getInstance()) {
+        room->removeEntity(entity);
+        Player::getInstance()->homework--;
+    }
     return "";
 }
 
 string Mask::interact(RoomEntity *entity) {
     if(entity == Player::getInstance()) {
         Player::getInstance()->masks++;
+
         return "You picked up a mask.";
     }
 
@@ -92,7 +100,6 @@ string ProfessorOffice::interact(RoomEntity *entity) {
         // }
     }
     if (entity == Homework::getInstance()) {
-        // Player::getInstance()->homework--; //TODO either add this to Blank or a Player Action
         Player::getInstance()->won = true;
         return "You slipped a page of homework under the door!";
     }
